@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CryptoRate.Core", "CryptoRate.Core\CryptoRate.Core.csproj", "{E53173DD-012D-41C8-BA6C-640D587319B6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CryptoRate.Bot", "CryptoRate.Bot\CryptoRate.Bot.csproj", "{E8C2D49A-1BCC-4667-A7F4-D6AF48DEFB80}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CtyptoRate.Console", "CtyptoRate.Console\CtyptoRate.Console.csproj", "{30D1C0E0-C94F-43AF-A745-F270D123486E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E53173DD-012D-41C8-BA6C-640D587319B6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E53173DD-012D-41C8-BA6C-640D587319B6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E53173DD-012D-41C8-BA6C-640D587319B6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E53173DD-012D-41C8-BA6C-640D587319B6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E8C2D49A-1BCC-4667-A7F4-D6AF48DEFB80}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E8C2D49A-1BCC-4667-A7F4-D6AF48DEFB80}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E8C2D49A-1BCC-4667-A7F4-D6AF48DEFB80}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E8C2D49A-1BCC-4667-A7F4-D6AF48DEFB80}.Release|Any CPU.Build.0 = Release|Any CPU
+		{30D1C0E0-C94F-43AF-A745-F270D123486E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{30D1C0E0-C94F-43AF-A745-F270D123486E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{30D1C0E0-C94F-43AF-A745-F270D123486E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{30D1C0E0-C94F-43AF-A745-F270D123486E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal

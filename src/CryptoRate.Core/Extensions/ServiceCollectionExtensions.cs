@@ -14,8 +14,6 @@ namespace CryptoRate.Core.Extensions {
 		public static IServiceCollection AddCryptoClientAsSingleton(this IServiceCollection services, IConfigurationRoot configuration) {
 			services.AddOptions<CryptoClientOptions>().ValidateDataAnnotations(); //.ValidateOptions();//
 			services.AddSingleton<ICryptoClient, CryptoClient>();
-				
-
 			return services;
 		}
 

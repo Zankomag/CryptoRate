@@ -9,9 +9,9 @@ namespace CryptoRate.Console {
 	public class Program {
 
 		private static async Task Main(string[] args) {
-			CryptoClient cryptoClient = new("");
-			var currencyRate = await cryptoClient.GetCurrencyRate("BTC", "USD");
-			WriteLine(Decimal.Round(currencyRate.rate, MidpointRounding.ToZero));
+			//CryptoClient cryptoClient = new();
+			//var currencyRate = await cryptoClient.GetCurrencyRate("BTC", "USD");
+			//WriteLine(Decimal.Round(currencyRate.rate, MidpointRounding.ToZero));
 			ReadLine();
 		}
 

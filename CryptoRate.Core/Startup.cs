@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CryptoRate.Core.Configs;
+using CryptoRate.Core.Extensions;
 using CryptoRate.Core.Utils;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -11,16 +12,18 @@ namespace CryptoRate.Core {
 
 		static Startup() {
 			Initialize();
-			var serviceCollection = new ServiceCollection();
-			ConfigureBasicServices(serviceCollection);
-			ConfigureConsumerServices(serviceCollection);
-			ConfigureStepFunctionInvoker(serviceCollection);
+			var services = new ServiceCollection();
+			ConfigureBasicServices(services);
+		}
+
+		private static void ConfigureBasicServices(IServiceCollection services) {
+			services.Configure<CryptoClientOptions>(configuration.GetSection("ExceptionMiddlewareOptions"));
 		}
 
 		public static void Initialize() {
 			var builder = new ConfigurationBuilder()
-				.AddJsonFile("appsettings.json", optional: false)
-				.AddJsonFile($"appsettings.{EnvironmentUtils.GetEnvironmentName()}.json", optional: true);
+				.AddJsonFile("appsettings.json", false)
+				.AddJsonFile($"appsettings.{EnvironmentWrapper.GetEnvironmentName()}.json", true);
 			configuration = builder.Build();
 		}
 

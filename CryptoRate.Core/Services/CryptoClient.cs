@@ -1,16 +1,18 @@
 ﻿using System;
 using System.Threading.Tasks;
 using CoinAPI.REST.V1;
+using CryptoRate.Core.Abstractions;
+using CryptoRate.Core.Configs;
+using Microsoft.Extensions.Options;
 
-namespace CryptoRate.Core {
+namespace CryptoRate.Core.Services {
 
-	public class CryptoRateService {
+	public class CryptoClient : ICryptoClient {
 
 		private readonly CoinApiRestClient client;
 
-		public CryptoRateService(string apiKey) {
-			if(String.IsNullOrWhiteSpace(apiKey)) throw new ArgumentException("Value cannot be null or whitespace.", nameof(apiKey));
-			client = new CoinApiRestClient(apiKey);
+		public CryptoClient(IOptions<CryptoClientOptions> options) {
+			client = new CoinApiRestClient(options.Value.ApiKey);
 		}
 
 		public async Task<Exchangerate> GetCurrencyRate(string currencyBase, string currencyQuote) {
@@ -19,8 +21,6 @@ namespace CryptoRate.Core {
 			Exchangerate result = await client.Exchange_rates_get_specific_rateAsync(currencyBase, currencyQuote);
 			return result;
 		}
-		
-		
 
 	}
 

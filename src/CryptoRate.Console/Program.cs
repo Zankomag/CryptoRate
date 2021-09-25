@@ -4,7 +4,7 @@ using CryptoRate.Core;
 using CryptoRate.Core.Services;
 using static System.Console;
 
-namespace CtyptoRate.Console {
+namespace CryptoRate.Console {
 
 	public class Program {
 

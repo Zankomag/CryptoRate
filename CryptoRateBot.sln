@@ -4,7 +4,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CryptoRate.Core", "src\Cryp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CryptoRate.Bot", "src\CryptoRate.Bot\CryptoRate.Bot.csproj", "{E8C2D49A-1BCC-4667-A7F4-D6AF48DEFB80}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CtyptoRate.Console", "src\CtyptoRate.Console\CtyptoRate.Console.csproj", "{30D1C0E0-C94F-43AF-A745-F270D123486E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CryptoRate.Console", "src\CryptoRate.Console\CryptoRate.Console.csproj", "{30D1C0E0-C94F-43AF-A745-F270D123486E}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{6C7DCF0C-4914-4F2F-8AB9-E048574428F4}"
 EndProject

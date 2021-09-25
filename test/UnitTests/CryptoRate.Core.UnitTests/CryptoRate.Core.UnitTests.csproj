@@ -21,7 +21,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\CryptoRate.Core\CryptoRate.Core.csproj" />
+      <ProjectReference Include="..\..\..\src\CryptoRate.Core\CryptoRate.Core.csproj" />
     </ItemGroup>
 
 </Project>

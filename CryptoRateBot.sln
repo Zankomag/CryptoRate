@@ -1,16 +1,16 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CryptoRate.Core", "CryptoRate.Core\CryptoRate.Core.csproj", "{E53173DD-012D-41C8-BA6C-640D587319B6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CryptoRate.Core", "src\CryptoRate.Core\CryptoRate.Core.csproj", "{E53173DD-012D-41C8-BA6C-640D587319B6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CryptoRate.Bot", "CryptoRate.Bot\CryptoRate.Bot.csproj", "{E8C2D49A-1BCC-4667-A7F4-D6AF48DEFB80}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CryptoRate.Bot", "src\CryptoRate.Bot\CryptoRate.Bot.csproj", "{E8C2D49A-1BCC-4667-A7F4-D6AF48DEFB80}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CtyptoRate.Console", "CtyptoRate.Console\CtyptoRate.Console.csproj", "{30D1C0E0-C94F-43AF-A745-F270D123486E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CtyptoRate.Console", "src\CtyptoRate.Console\CtyptoRate.Console.csproj", "{30D1C0E0-C94F-43AF-A745-F270D123486E}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{6C7DCF0C-4914-4F2F-8AB9-E048574428F4}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{3745DD3B-9CBC-4291-B824-FFBAF3354D65}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CryptoRate.Core.UnitTests", "CryptoRate.Core.UnitTests\CryptoRate.Core.UnitTests.csproj", "{8E0D82FF-291D-4042-91DA-D215B0E5C471}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CryptoRate.Core.UnitTests", "test\UnitTests\CryptoRate.Core.UnitTests\CryptoRate.Core.UnitTests.csproj", "{8E0D82FF-291D-4042-91DA-D215B0E5C471}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UnitTests", "UnitTests", "{01899B18-6A80-4B4A-A71A-39A58DF4F012}"
 EndProject

@@ -12,7 +12,7 @@ namespace CryptoRate.Console {
 		private static async Task Main(string[] args) {
 			var cryptoClient = Startup.ServiceProvider.GetRequiredService<ICryptoClient>();
 			var currencyRate = await cryptoClient.GetCurrencyRate("BTC", "USD");
-			WriteLine(Decimal.Round(currencyRate.rate, MidpointRounding.ToZero));
+			WriteLine($"1 BTC = {Decimal.Round(currencyRate.rate, MidpointRounding.ToZero)} USD");
 			ReadLine();
 		}
 

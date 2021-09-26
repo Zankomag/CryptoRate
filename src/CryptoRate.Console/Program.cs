@@ -13,6 +13,7 @@ namespace CryptoRate.Console {
 
 		private static async Task Main(string[] args) {
 			var host = new HostBuilder()
+				.AddConfiguration()
 				.UseStartup<Startup>()
 				.Build();
 

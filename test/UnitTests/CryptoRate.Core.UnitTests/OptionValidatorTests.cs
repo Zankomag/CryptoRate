@@ -1,4 +1,5 @@
 using CryptoRate.Core.Configs;
+using CryptoRate.Core.Extensions;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Xunit;
@@ -14,14 +15,16 @@ namespace CryptoRate.Core.UnitTests {
 			var services = new ServiceCollection();
 			services.AddOptions<CryptoClientOptions>()
 				.Configure(o => o.ApiKey = "MyRightApiKey")
-				.ValidateDataAnnotations();
+				.ValidateOptions(); //.ValidateDataAnnotations();
+
 			var serviceProvider = services.BuildServiceProvider();
 
 			//Act
-			var exception = Record.Exception(() => serviceProvider.GetRequiredService<IOptions<CryptoClientOptions>>());
-
+			var options = serviceProvider.GetRequiredService<IOptions<CryptoClientOptions>>();
+			
 			//Assert
-			Assert.Null(exception);
+			Assert.NotNull(options.Value);
+
 		}
 
 		[Theory]
@@ -32,13 +35,15 @@ namespace CryptoRate.Core.UnitTests {
 		[InlineData(" ")] //alt + 255
 		[InlineData("\t")]
 		[InlineData("\n")]
+		[InlineData(" MyRightApiKey")]
 		public void Validate_Throws_When_CryptoClient_Config_IsNullOrWhiteSpace(string apiKey) {
 
 			//Arrange
 			var services = new ServiceCollection();
 			services.AddOptions<CryptoClientOptions>()
 				.Configure(o => o.ApiKey = apiKey)
-				.ValidateDataAnnotations();
+				.ValidateOptions(); //.ValidateDataAnnotations();
+
 			var serviceProvider = services.BuildServiceProvider();
 
 			//Act + Assert

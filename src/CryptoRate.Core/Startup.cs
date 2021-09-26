@@ -1,37 +1,16 @@
-﻿using System;
-using CryptoRate.Core.Abstractions;
-using CryptoRate.Core.Configs;
-using CryptoRate.Core.Extensions;
-using CryptoRate.Core.Services;
-using CryptoRate.Core.Utils;
+﻿using CryptoRate.Core.Extensions;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace CryptoRate.Core {
 
-	public static class Startup {
+	public class Startup {
 
-		public static IServiceProvider ServiceProvider { get; set; }
-		
-		private static IConfigurationRoot configuration;
+		public IConfiguration Configuration { get; }
 
-		static Startup() {
-			Initialize();
-			var services = new ServiceCollection();
-			ConfigureBasicServices(services);
-		}
+		public Startup(IConfiguration configuration) => Configuration = configuration;
 
-		private static void ConfigureBasicServices(IServiceCollection services) {
-			services.AddCryptoClientAsSingleton(configuration);
-			ServiceProvider = services.BuildServiceProvider();
-		}
-
-		public static void Initialize() {
-			var builder = new ConfigurationBuilder()
-				.AddJsonFile("appsettings.json", false)
-				.AddJsonFile($"appsettings.{EnvironmentWrapper.GetEnvironmentName()}.json", true);
-			configuration = builder.Build();
-		}
+		public void ConfigureServices(IServiceCollection services) => services.AddCryptoClientAsSingleton(Configuration);
 
 	}
 

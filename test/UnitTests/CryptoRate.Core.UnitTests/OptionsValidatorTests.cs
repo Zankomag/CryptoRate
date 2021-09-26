@@ -1,5 +1,6 @@
 using CryptoRate.Core.Configs;
 using CryptoRate.Core.Extensions;
+using CryptoRate.Core.UnitTests.Fixtures;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Xunit;
@@ -12,16 +13,16 @@ namespace CryptoRate.Core.UnitTests {
 
 		private static void ConfigureCryptoClientOptions(string apiKey) => services.Configure<CryptoClientOptions>(o => o.ApiKey = apiKey);
 
-		[Fact]
-		public void Validate_Succeeds_When_CryptoClient_Config_IsRight() {
+		[Theory]
+		[MemberData(nameof(CryptoClientFixture.RightApiKeys), MemberType = typeof(CryptoClientFixture))]
+		public void AddOptionsValidator_Succeeds_When_CryptoClient_Config_IsRight(string apiKey) {
 
 			//Arrange
-			ConfigureCryptoClientOptions("MyRightApiKey");
-			services.AddOptionsValidator<CryptoClientOptions>();
+			ConfigureCryptoClientOptions(apiKey);
 			
-			var serviceProvider = services.BuildServiceProvider();
-
 			//Act
+			services.AddOptionsValidator<CryptoClientOptions>();
+			var serviceProvider = services.BuildServiceProvider();
 			var options = serviceProvider.GetRequiredService<IOptions<CryptoClientOptions>>();
 
 			//Assert
@@ -30,23 +31,15 @@ namespace CryptoRate.Core.UnitTests {
 		}
 
 		[Theory]
-		[InlineData((string)null)]
-		[InlineData("")]
-		[InlineData(" ")]
-		[InlineData("    ")]
-		[InlineData(" ")] //alt + 255
-		[InlineData("\t")]
-		[InlineData("\n")]
-		[InlineData(" MyRightApiKey")]
-		public void Validate_Throws_When_CryptoClient_Config_IsNullOrWhiteSpace(string apiKey) {
+		[MemberData(nameof(CryptoClientFixture.WrongApiKeys), MemberType = typeof(CryptoClientFixture))]
+		public void AddOptionsValidator_Throws_When_CryptoClient_Config_IsNullOrWhiteSpace(string apiKey) {
 
 			//Arrange
 			ConfigureCryptoClientOptions(apiKey);
-			services.AddOptionsValidator<CryptoClientOptions>();
-
-			var serviceProvider = services.BuildServiceProvider();
-
+			
 			//Act + Assert
+			services.AddOptionsValidator<CryptoClientOptions>();
+			var serviceProvider = services.BuildServiceProvider();
 			Assert.Throws<OptionsValidationException>(() =>
 				serviceProvider.GetRequiredService<IOptions<CryptoClientOptions>>().Value);
 		}

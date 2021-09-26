@@ -53,9 +53,6 @@ namespace CryptoRate.Core.Extensions {
 		/// <param name="hostBuilder"></param>
 		/// <returns></returns>
 		public static IHostBuilder AddConfiguration(this IHostBuilder hostBuilder) {
-			//var projectDir = GetProjectPath<TStartup>("");
-			//Console.WriteLine(projectDir);
-			//hostBuilder.UseContentRoot(projectDir);
 			hostBuilder.ConfigureAppConfiguration((hostingContext, configurationBuilder) => {
 				configurationBuilder.AddEnvironmentVariables();
 				hostingContext.HostingEnvironment.EnvironmentName = EnvironmentWrapper.GetEnvironmentName();
@@ -64,7 +61,7 @@ namespace CryptoRate.Core.Extensions {
 					.AddJsonFile($"appsettings.{hostingContext.HostingEnvironment.EnvironmentName}.json", false);
 
 				if(hostingContext.HostingEnvironment.IsDevelopment() && !String.IsNullOrEmpty(hostingContext.HostingEnvironment.ApplicationName)) {
-					var appAssembly = Assembly.Load(new AssemblyName(hostingContext.HostingEnvironment.ApplicationName));
+					var appAssembly = Assembly.GetExecutingAssembly();
 					configurationBuilder.AddUserSecrets(appAssembly, true);
 				}
 			});

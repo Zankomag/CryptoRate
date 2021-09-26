@@ -3,15 +3,10 @@
     <PropertyGroup>
         <OutputType>Exe</OutputType>
         <TargetFramework>net5.0</TargetFramework>
-				<UserSecretsId>b43ad939-bbba-4d51-b5d9-0bce27b06d84</UserSecretsId>
   </PropertyGroup>
 
     <ItemGroup>
       <ProjectReference Include="..\CryptoRate.Core\CryptoRate.Core.csproj" />
-    </ItemGroup>
-
-    <ItemGroup>
-			<PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="5.0.0"/>
     </ItemGroup>
 
 </Project>

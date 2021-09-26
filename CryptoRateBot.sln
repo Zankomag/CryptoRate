@@ -12,11 +12,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{3745DD3B-9
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CryptoRate.Core.UnitTests", "test\UnitTests\CryptoRate.Core.UnitTests\CryptoRate.Core.UnitTests.csproj", "{8E0D82FF-291D-4042-91DA-D215B0E5C471}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UnitTests", "UnitTests", "{01899B18-6A80-4B4A-A71A-39A58DF4F012}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "IntegrationTests", "IntegrationTests", "{AF46F018-A872-4F68-959B-D69391431A29}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "AcceptanceTests", "AcceptanceTests", "{AF46F018-A872-4F68-959B-D69391431A29}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CryptoRate.Core.IntegrationTests", "test\AcceptanceTests\CryptoRate.Core.IntegrationTests\CryptoRate.Core.IntegrationTests.csproj", "{31F4DB89-2105-4936-8F0B-7A9048B41AC8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CryptoRate.Core.IntegrationTests", "test\IntegrationTests\CryptoRate.Core.IntegrationTests\CryptoRate.Core.IntegrationTests.csproj", "{31F4DB89-2105-4936-8F0B-7A9048B41AC8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -13,9 +13,8 @@ namespace CryptoRate.Core.UnitTests {
 
 			//Arrange
 			var services = new ServiceCollection();
-			services.AddOptions<CryptoClientOptions>()
-				.Configure(o => o.ApiKey = "MyRightApiKey")
-				.ValidateOptions(); //.ValidateDataAnnotations();
+			services.Configure<CryptoClientOptions>(o => o.ApiKey = "MyRightApiKey")
+				.AddOptionsValidator<CryptoClientOptions>();
 
 			var serviceProvider = services.BuildServiceProvider();
 
@@ -40,9 +39,8 @@ namespace CryptoRate.Core.UnitTests {
 
 			//Arrange
 			var services = new ServiceCollection();
-			services.AddOptions<CryptoClientOptions>()
-				.Configure(o => o.ApiKey = apiKey)
-				.ValidateOptions(); //.ValidateDataAnnotations();
+			services.Configure<CryptoClientOptions>(o => o.ApiKey = apiKey)
+				.AddOptionsValidator<CryptoClientOptions>();
 
 			var serviceProvider = services.BuildServiceProvider();
 

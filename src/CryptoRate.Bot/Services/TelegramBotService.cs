@@ -26,10 +26,10 @@ namespace CryptoRate.Bot.Services {
 
 		public async Task<Message> SendCurrencyRate(long chatId, Exchangerate currencyRate) {
 			string message = currencyRate != null
-				? String.Format(currencyRateMessageTemplate, currencyRate.rate, currencyRate.time.Date.ToString("MM/dd/yyyy"))
+				? String.Format(currencyRateMessageTemplate, currencyRate.rate, currencyRate.time.Date.ToString("dd/MM/yyyy"))
 				: "Sorry, I've received an error from CoinAPI. Make sure limits are not drained.";
-
-			var result = await client.SendTextMessageAsync(chatId, message, ParseMode.MarkdownV2);
+			
+			var result = await client.SendTextMessageAsync(chatId, message, ParseMode.Markdown);
 			return result;
 		}
 

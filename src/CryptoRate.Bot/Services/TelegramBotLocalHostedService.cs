@@ -16,6 +16,7 @@ namespace CryptoRate.Bot.Services {
 		private readonly ITelegramBotService telegramBotService;
 		private readonly ICryptoClient cryptoClient;
 		private readonly ITelegramBotClient client;
+		private readonly DateTime startTime;
 
 		private readonly TelegramBotOptions options;
 		private CancellationTokenSource cancellationTokenSource;
@@ -26,6 +27,7 @@ namespace CryptoRate.Bot.Services {
 			this.cryptoClient = cryptoClient;
 			options = telegramBotOptions.Value;
 			client = new TelegramBotClient(options.Token);
+			startTime = DateTime.UtcNow;
 		}
 
 		/// <inheritdoc />
@@ -55,23 +57,26 @@ namespace CryptoRate.Bot.Services {
 		}
 
 		/// <inheritdoc />
-		public async Task HandleError(ITelegramBotClient botClient, Exception exception, CancellationToken cancellationToken) {
+		public Task HandleError(ITelegramBotClient botClient, Exception exception, CancellationToken cancellationToken) {
 			//TODO log exception
+			return Task.CompletedTask;
 		}
 
 		/// <inheritdoc />
 		public UpdateType[] AllowedUpdates { get; } = {UpdateType.Message, UpdateType.InlineQuery};
 
 		private async Task HandleMessageAsync(Message message) {
+			//bot doesn't read old messages to avoid /*spam*/ 
+			if(message.Date < startTime) return;
 			//If command contains bot username we need to exclude it from command (/btc@MyBtcBot should be /btc)
 			int atIndex = message.Text.IndexOf('@');
 			string command = atIndex == -1 ? message.Text : message.Text[..atIndex];
-			
+
 			switch(command.ToLower()) {
 				case "/btc":
 				case "/btctousd":
 					var currencyRate = await cryptoClient.GetCurrencyRate("BTC", "USD");
-					await telegramBotService.SendCurrencyRate(message.From.Id, currencyRate);
+					await telegramBotService.SendCurrencyRate(message.Chat.Id, currencyRate);
 					break;
 			}
 		}

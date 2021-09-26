@@ -1,0 +1,59 @@
+using System;
+using System.Threading.Tasks;
+using CryptoRate.Core.Abstractions;
+using CryptoRate.Core.Extensions;
+using CryptoRate.Core.Utils;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using Xunit;
+
+namespace CryptoRate.Core.IntegrationTests {
+
+	public class CryptoClientTests {
+
+		private readonly IHost host;
+
+		public CryptoClientTests() {
+			//TODO try the other way to set env
+			Environment.SetEnvironmentVariable(EnvironmentWrapper.EnvironmentName, EnvironmentWrapper.Development);
+
+			host = new HostBuilder()
+				.AddConfiguration()
+				.UseStartup<Startup>()
+				.Build();
+		}
+
+		public ICryptoClient GetCryptoClient() => host.Services.GetRequiredService<ICryptoClient>();
+
+		[Fact]
+		public void GetRequiredService_Succeeds_WhenGettingCryptoClient() {
+
+			//Act
+			var cryptoClient = host.Services.GetRequiredService<ICryptoClient>();
+
+			//Assert
+			Assert.NotNull(cryptoClient);
+		}
+
+		[Fact]
+		public async Task GetCurrencyRate_Succeeds_WhenGettingBtcToUsd() {
+
+			//Arrange
+			var cryptoClient = GetCryptoClient();
+			const string baseCurrency = "BTC";
+			const string quoteCurrency = "USD";
+
+			//Act
+			var result = await cryptoClient.GetCurrencyRate(baseCurrency, quoteCurrency);
+
+			//Assert
+			Assert.NotNull(result);
+			Assert.NotEqual(default, result.rate);
+			Assert.Equal(baseCurrency, result.asset_id_base);
+			Assert.Equal(quoteCurrency, result.asset_id_quote);
+		}
+
+	}
+
+
+}

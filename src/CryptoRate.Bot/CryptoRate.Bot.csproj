@@ -5,11 +5,9 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <PackageReference Include="CoinAPI.REST.V1" Version="2.0.7" />
+      <PackageReference Include="Microsoft.Extensions.Options" Version="5.0.0" />
       <PackageReference Include="Telegram.Bot" Version="16.0.2" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <Folder Include="Configs" />
     </ItemGroup>
 
 </Project>

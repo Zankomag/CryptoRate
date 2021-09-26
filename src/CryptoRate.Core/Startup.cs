@@ -24,6 +24,7 @@ namespace CryptoRate.Core {
 		private static void ConfigureBasicServices(IServiceCollection services) {
 			//services.Configure<CryptoClientOptions>(configuration.GetSection("CryptoClient"));
 			services.AddCryptoClientAsSingleton(configuration);
+			ServiceProvider = services.BuildServiceProvider();
 		}
 
 		public static void Initialize() {

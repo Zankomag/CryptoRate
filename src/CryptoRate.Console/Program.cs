@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Threading.Tasks;
 using CryptoRate.Core;
-using CryptoRate.Core.Services;
+using CryptoRate.Core.Abstractions;
+using Microsoft.Extensions.DependencyInjection;
 using static System.Console;
 
 namespace CryptoRate.Console {
@@ -9,9 +10,9 @@ namespace CryptoRate.Console {
 	public class Program {
 
 		private static async Task Main(string[] args) {
-			//CryptoClient cryptoClient = new();
-			//var currencyRate = await cryptoClient.GetCurrencyRate("BTC", "USD");
-			//WriteLine(Decimal.Round(currencyRate.rate, MidpointRounding.ToZero));
+			var cryptoClient = Startup.ServiceProvider.GetRequiredService<ICryptoClient>();
+			var currencyRate = await cryptoClient.GetCurrencyRate("BTC", "USD");
+			WriteLine(Decimal.Round(currencyRate.rate, MidpointRounding.ToZero));
 			ReadLine();
 		}
 

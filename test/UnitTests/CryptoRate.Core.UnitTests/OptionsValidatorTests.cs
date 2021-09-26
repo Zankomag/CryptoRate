@@ -8,20 +8,22 @@ namespace CryptoRate.Core.UnitTests {
 
 	public class OptionsValidatorTests {
 
+		private static readonly ServiceCollection services = new();
+
+		private static void ConfigureCryptoClientOptions(string apiKey) => services.Configure<CryptoClientOptions>(o => o.ApiKey = apiKey);
+
 		[Fact]
 		public void Validate_Succeeds_When_CryptoClient_Config_IsRight() {
 
 			//Arrange
-			var services = new ServiceCollection();
-			services.AddOptions<CryptoClientOptions>()
-				.Configure(o => o.ApiKey = "MyRightApiKey")
-				.ValidateOptions(); //.ValidateDataAnnotations();
-
+			ConfigureCryptoClientOptions("MyRightApiKey");
+			services.AddOptionsValidator<CryptoClientOptions>();
+			
 			var serviceProvider = services.BuildServiceProvider();
 
 			//Act
 			var options = serviceProvider.GetRequiredService<IOptions<CryptoClientOptions>>();
-			
+
 			//Assert
 			Assert.NotNull(options.Value);
 
@@ -39,10 +41,8 @@ namespace CryptoRate.Core.UnitTests {
 		public void Validate_Throws_When_CryptoClient_Config_IsNullOrWhiteSpace(string apiKey) {
 
 			//Arrange
-			var services = new ServiceCollection();
-			services.AddOptions<CryptoClientOptions>()
-				.Configure(o => o.ApiKey = apiKey)
-				.ValidateOptions(); //.ValidateDataAnnotations();
+			ConfigureCryptoClientOptions(apiKey);
+			services.AddOptionsValidator<CryptoClientOptions>();
 
 			var serviceProvider = services.BuildServiceProvider();
 

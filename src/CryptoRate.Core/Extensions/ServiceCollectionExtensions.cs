@@ -11,14 +11,15 @@ namespace CryptoRate.Core.Extensions {
 
 	public static class ServiceCollectionExtensions {
 
-		public static IServiceCollection AddCryptoClientAsSingleton(this IServiceCollection services, IConfigurationRoot configuration) {
-			services.AddOptions<CryptoClientOptions>().ValidateOptions(); //.ValidateDataAnnotations(); ////
+		public static IServiceCollection AddCryptoClientAsSingleton(this IServiceCollection services, IConfiguration configuration) {
+			services.Configure<CryptoClientOptions>(configuration.GetSection("CryptoClient"));
+			services.AddOptionsValidator<CryptoClientOptions>();
 			services.AddSingleton<ICryptoClient, CryptoClient>();
 			return services;
 		}
 
-		public static OptionsBuilder<TOptions> ValidateOptions<TOptions>(this OptionsBuilder<TOptions> optionsBuilder) where TOptions : class {
-			optionsBuilder.Services.AddSingleton<IValidateOptions<TOptions>, OptionsValidator<TOptions>>();
+		public static IServiceCollection AddOptionsValidator<TOptions>(this IServiceCollection optionsBuilder) where TOptions : class {
+			optionsBuilder.AddSingleton<IValidateOptions<TOptions>, OptionsValidator<TOptions>>();
 			return optionsBuilder;
 		}
 

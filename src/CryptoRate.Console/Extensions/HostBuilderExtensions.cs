@@ -52,16 +52,16 @@ namespace CryptoRate.Console.Extensions {
 		/// <param name="hostBuilder"></param>
 		/// <returns></returns>
 		public static IHostBuilder AddConfiguration(this IHostBuilder hostBuilder) {
-			hostBuilder.ConfigureAppConfiguration((hostingContext, config) => {
-				config.AddEnvironmentVariables();
+			hostBuilder.ConfigureAppConfiguration((hostingContext, configurationBuilder) => {
+				configurationBuilder.AddEnvironmentVariables();
 				hostingContext.HostingEnvironment.EnvironmentName = EnvironmentWrapper.GetEnvironmentName();
 				
-				config.AddJsonFile("appsettings.json", false)
+				configurationBuilder.AddJsonFile("appsettings.json", false)
 					.AddJsonFile($"appsettings.{hostingContext.HostingEnvironment.EnvironmentName}.json", false);
 
 				if(hostingContext.HostingEnvironment.IsDevelopment() && !String.IsNullOrEmpty(hostingContext.HostingEnvironment.ApplicationName)) {
 					var appAssembly = Assembly.Load(new AssemblyName(hostingContext.HostingEnvironment.ApplicationName));
-					config.AddUserSecrets(appAssembly, true);
+					configurationBuilder.AddUserSecrets(appAssembly, true);
 				}
 			});
 			return hostBuilder;

@@ -6,7 +6,7 @@ using Xunit;
 
 namespace CryptoRate.Core.UnitTests {
 
-	public class OptionValidatorTests {
+	public class OptionsValidatorTests {
 
 		[Fact]
 		public void Validate_Succeeds_When_CryptoClient_Config_IsRight() {

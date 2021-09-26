@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
-using CryptoRate.Console.Extensions;
+using CryptoRate.Core.Extensions;
 using CryptoRate.Core;
 using CryptoRate.Core.Abstractions;
 using Microsoft.Extensions.DependencyInjection;

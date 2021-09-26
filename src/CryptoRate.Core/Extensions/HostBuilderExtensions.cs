@@ -6,7 +6,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
-namespace CryptoRate.Console.Extensions {
+namespace CryptoRate.Core.Extensions {
 
 	/// <summary>
 	///     Extensions to emulate a typical "Startup.cs" pattern for <see cref="IHostBuilder" />

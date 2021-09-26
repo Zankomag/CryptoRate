@@ -9,6 +9,9 @@ namespace CryptoRate.Bot.Configs {
 		public string Token { get; set; }
 		public long[] AdminIds { get; set; }
 
+		public string RedStickerFileId { get; set; }
+		public string GreenStickerFileId { get; set; }
+
 	}
 
 }

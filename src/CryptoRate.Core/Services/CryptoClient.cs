@@ -28,6 +28,8 @@ namespace CryptoRate.Core.Services {
 			return result;
 		}
 
+		public async Task<Exchangerate> GetBtcToUsdCurrencyRate() => await GetCurrencyRate("BTC", "USD");
+
 	}
 
 }

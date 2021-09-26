@@ -7,6 +7,8 @@ namespace CryptoRate.Core.Abstractions {
 
 		Task<Exchangerate> GetCurrencyRate(string currencyBase, string currencyQuote);
 
+		Task<Exchangerate> GetBtcToUsdCurrencyRate();
+
 	}
 
 }

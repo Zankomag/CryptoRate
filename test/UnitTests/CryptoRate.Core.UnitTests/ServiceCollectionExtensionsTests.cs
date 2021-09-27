@@ -18,10 +18,10 @@ namespace CryptoRate.Core.UnitTests {
 		private static void ConfigureCryptoClientOptions(string apiKey) {
 			var apiKeyConfigurationOptionsMock = new Mock<IConfigurationSection>();
 			apiKeyConfigurationOptionsMock.Setup(c => c.Value).Returns(apiKey);
-			var cryptoClientOptionsApiKeyConfigurationOptionsMock = new Mock<IConfigurationSection>();
-			cryptoClientOptionsApiKeyConfigurationOptionsMock.Setup(x => x.GetSection("ApiKey")).Returns(apiKeyConfigurationOptionsMock.Object);
-			cryptoClientOptionsApiKeyConfigurationOptionsMock.Setup(x => x.GetChildren()).Returns(new [] {apiKeyConfigurationOptionsMock.Object});
-			services.Configure<CryptoClientOptions>(cryptoClientOptionsApiKeyConfigurationOptionsMock.Object);
+			var cryptoClientOptionsConfigurationOptionsMock = new Mock<IConfigurationSection>();
+			cryptoClientOptionsConfigurationOptionsMock.Setup(x => x.GetSection("ApiKey")).Returns(apiKeyConfigurationOptionsMock.Object);
+			cryptoClientOptionsConfigurationOptionsMock.Setup(x => x.GetChildren()).Returns(new [] {apiKeyConfigurationOptionsMock.Object});
+			services.Configure<CryptoClientOptions>(cryptoClientOptionsConfigurationOptionsMock.Object);
 		}
 
 		private static IConfiguration GetCryptoClientConfiguration(string apiKey) {

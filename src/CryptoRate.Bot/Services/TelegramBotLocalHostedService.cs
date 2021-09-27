@@ -1,9 +1,7 @@
-﻿using System;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 using CryptoRate.Bot.Abstractions;
 using CryptoRate.Bot.Configs;
-using CryptoRate.Core.Abstractions;
 using Microsoft.Extensions.Options;
 using Telegram.Bot;
 
@@ -14,14 +12,12 @@ namespace CryptoRate.Bot.Services {
 		private readonly ITelegramBotService telegramBotService;
 		private readonly ITelegramBotClient client;
 
-		private readonly TelegramBotOptions options;
-
 		private CancellationTokenSource cancellationTokenSource;
 		private Task pollingTask;
 
-		public TelegramBotLocalHostedService(IOptions<TelegramBotOptions> telegramBotOptions, ITelegramBotService telegramBotService, ICryptoClient cryptoClient) {
+		public TelegramBotLocalHostedService(IOptions<TelegramBotOptions> telegramBotOptions, ITelegramBotService telegramBotService) {
 			this.telegramBotService = telegramBotService;
-			options = telegramBotOptions.Value;
+			TelegramBotOptions options = telegramBotOptions.Value;
 			client = new TelegramBotClient(options.Token);
 		}
 

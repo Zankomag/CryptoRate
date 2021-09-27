@@ -8,7 +8,7 @@ namespace CryptoRate.Bot {
 
 	public class LocalEntryPoint {
 
-		private static async Task Main(string[] args) {
+		private static async Task Main() {
 			var host = new HostBuilder()
 				.AddConfiguration()
 				.UseStartup<Core.Startup>()

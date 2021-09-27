@@ -1,5 +1,4 @@
-﻿using System;
-using CryptoRate.Core.Abstractions;
+﻿using CryptoRate.Core.Abstractions;
 using CryptoRate.Core.Configs;
 using CryptoRate.Core.Services;
 using CryptoRate.Core.Utils;

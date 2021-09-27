@@ -1,5 +1,4 @@
 ﻿using System;
-using System.IO;
 using System.Reflection;
 using CryptoRate.Core.Utils;
 using Microsoft.Extensions.Configuration;
@@ -46,7 +45,7 @@ namespace CryptoRate.Core.Extensions {
 		}
 
 		/// <summary>
-		/// Sets Hotsing Environment
+		/// Sets Hosting Environment
 		/// Adds config from appsettings.json and appsettings.Environment.json files
 		/// Loads User Secrets if Development
 		/// </summary>

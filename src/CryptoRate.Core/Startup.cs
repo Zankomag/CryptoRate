@@ -10,7 +10,7 @@ namespace CryptoRate.Core {
 
 		public Startup(IConfiguration configuration) => Configuration = configuration;
 
-		public void ConfigureServices(IServiceCollection services) => services.AddCryptoClientAsSingleton(Configuration);
+		public void ConfigureServices(IServiceCollection services) => services.AddCryptoClientAsScoped(Configuration);
 
 	}
 

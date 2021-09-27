@@ -64,7 +64,7 @@ namespace CryptoRate.Core.UnitTests {
 			var configuration = GetCryptoClientConfiguration(apiKey);
 
 			//Act
-			services.AddCryptoClientAsSingleton(configuration);
+			services.AddCryptoClientAsScoped(configuration);
 			var serviceProvider = services.BuildServiceProvider();
 			var options = serviceProvider.GetRequiredService<IOptions<CryptoClientOptions>>();
 
@@ -81,7 +81,7 @@ namespace CryptoRate.Core.UnitTests {
 			var configuration = GetCryptoClientConfiguration(apiKey);
 
 			//Act + Assert
-			services.AddCryptoClientAsSingleton(configuration);
+			services.AddCryptoClientAsScoped(configuration);
 			var serviceProvider = services.BuildServiceProvider();
 			Assert.Throws<OptionsValidationException>(() =>
 				serviceProvider.GetRequiredService<IOptions<CryptoClientOptions>>().Value);

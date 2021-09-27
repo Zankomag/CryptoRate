@@ -1,11 +1,10 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using CryptoRate.Core.Services;
 
 namespace CryptoRate.Core.Configs {
 
 	public class CryptoClientOptions {
 
-		public const string SectionName = nameof(CryptoClient);
+		public const string SectionName = "CryptoClient";
 
 		[Required]
 		[RegularExpression(@"^\S*$", ErrorMessage = "No white space allowed")]

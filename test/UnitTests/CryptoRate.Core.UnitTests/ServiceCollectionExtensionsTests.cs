@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using CryptoRate.Core.Configs;
@@ -6,6 +7,7 @@ using CryptoRate.Core.UnitTests.Fixtures;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
+using Moq;
 using Xunit;
 
 namespace CryptoRate.Core.UnitTests {
@@ -14,7 +16,14 @@ namespace CryptoRate.Core.UnitTests {
 
 		private static readonly ServiceCollection services = new();
 
-		private static void ConfigureCryptoClientOptions(string apiKey) => services.Configure<CryptoClientOptions>(o => o.ApiKey = apiKey);
+		private static void ConfigureCryptoClientOptions(string apiKey) {
+			var apiKeyConfigurationOptionsMock = new Mock<IConfigurationSection>();
+			apiKeyConfigurationOptionsMock.Setup(c => c.Value).Returns(apiKey);
+			var cryptoClientOptionsApiKeyConfigurationOptionsMock = new Mock<IConfigurationSection>();
+			cryptoClientOptionsApiKeyConfigurationOptionsMock.Setup(x => x.GetSection("ApiKey")).Returns(apiKeyConfigurationOptionsMock.Object);
+			cryptoClientOptionsApiKeyConfigurationOptionsMock.Setup(x => x.GetChildren()).Returns(new [] {apiKeyConfigurationOptionsMock.Object});
+			services.Configure<CryptoClientOptions>(cryptoClientOptionsApiKeyConfigurationOptionsMock.Object);
+		}
 
 		private static IConfiguration GetCryptoClientConfiguration(string apiKey) {
 			var appSettings = @$"{{""CryptoClient"": {{""ApiKey"": ""{apiKey}""}}}}";

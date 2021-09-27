@@ -2,6 +2,7 @@ using System.IO;
 using System.Text;
 using CryptoRate.Core.Configs;
 using CryptoRate.Core.Extensions;
+using CryptoRate.Core.Services;
 using CryptoRate.Core.UnitTests.Fixtures;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -15,17 +16,25 @@ namespace CryptoRate.Core.UnitTests {
 
 		private static readonly ServiceCollection services = new();
 
-		private static void ConfigureCryptoClientOptions(string apiKey) {
-			var apiKeyConfigurationOptionsMock = new Mock<IConfigurationSection>();
-			apiKeyConfigurationOptionsMock.Setup(c => c.Value).Returns(apiKey);
-			var cryptoClientOptionsConfigurationOptionsMock = new Mock<IConfigurationSection>();
-			cryptoClientOptionsConfigurationOptionsMock.Setup(x => x.GetSection("ApiKey")).Returns(apiKeyConfigurationOptionsMock.Object);
-			cryptoClientOptionsConfigurationOptionsMock.Setup(x => x.GetChildren()).Returns(new [] {apiKeyConfigurationOptionsMock.Object});
-			services.Configure<CryptoClientOptions>(cryptoClientOptionsConfigurationOptionsMock.Object);
+		private static IConfiguration GetMockedCryptoClientConfiguration(string apiKey) {
+			var apiKeyConfigurationSectionMock = new Mock<IConfigurationSection>();
+			apiKeyConfigurationSectionMock.Setup(c => c.Value).Returns(apiKey);
+			var cryptoClientOptionsConfigurationSectionMock = new Mock<IConfigurationSection>();
+			cryptoClientOptionsConfigurationSectionMock.Setup(x => x.GetSection(nameof(CryptoClientOptions.ApiKey))).Returns(apiKeyConfigurationSectionMock.Object);
+			cryptoClientOptionsConfigurationSectionMock.Setup(x => x.GetChildren()).Returns(new [] {apiKeyConfigurationSectionMock.Object});
+			var configurationMock = new Mock<IConfiguration>();
+			configurationMock.Setup(x => x.GetSection(CryptoClientOptions.SectionName)).Returns(cryptoClientOptionsConfigurationSectionMock.Object);
+			return configurationMock.Object;
 		}
 
-		private static IConfiguration GetCryptoClientConfiguration(string apiKey) {
-			var appSettings = @$"{{""CryptoClient"": {{""ApiKey"": ""{apiKey}""}}}}";
+		//This method is the same as GetMockedCryptoClientConfiguration, but does not use mocks
+		private static IConfiguration GetRealCryptoClientConfiguration(string apiKey) {
+			var appSettings = 
+				@$"{{
+                       ""{CryptoClientOptions.SectionName}"": {{
+                           ""{nameof(CryptoClientOptions.ApiKey)}"": ""{apiKey}""
+                       }}
+                   }}";
 
 			var configurationBuilder = new ConfigurationBuilder();
 			configurationBuilder.AddJsonStream(new MemoryStream(Encoding.UTF8.GetBytes(appSettings)));
@@ -38,10 +47,10 @@ namespace CryptoRate.Core.UnitTests {
 		public void AddOptionsValidator_Succeeds_When_CryptoClient_Config_IsRight(string apiKey) {
 
 			//Arrange
-			ConfigureCryptoClientOptions(apiKey);
+			var configuration = GetMockedCryptoClientConfiguration(apiKey);
+			services.AddOptions<CryptoClientOptions>(configuration, CryptoClientOptions.SectionName);
 			
 			//Act
-			services.AddOptionsValidator<CryptoClientOptions>();
 			var serviceProvider = services.BuildServiceProvider();
 			var options = serviceProvider.GetRequiredService<IOptions<CryptoClientOptions>>();
 
@@ -55,10 +64,10 @@ namespace CryptoRate.Core.UnitTests {
 		public void AddOptionsValidator_Throws_When_CryptoClient_Config_IsNullOrWhiteSpace(string apiKey) {
 
 			//Arrange
-			ConfigureCryptoClientOptions(apiKey);
+			var configuration = GetMockedCryptoClientConfiguration(apiKey);
+			services.AddOptions<CryptoClientOptions>(configuration, CryptoClientOptions.SectionName);
 			
 			//Act + Assert
-			services.AddOptionsValidator<CryptoClientOptions>();
 			var serviceProvider = services.BuildServiceProvider();
 			Assert.Throws<OptionsValidationException>(() =>
 				serviceProvider.GetRequiredService<IOptions<CryptoClientOptions>>().Value);
@@ -69,7 +78,7 @@ namespace CryptoRate.Core.UnitTests {
 		public void AddCryptoClientAsSingleton_Succeeds_When_CryptoClient_Config_IsRight(string apiKey) {
 
 			//Arrange
-			var configuration = GetCryptoClientConfiguration(apiKey);
+			var configuration = GetRealCryptoClientConfiguration(apiKey);
 
 			//Act
 			services.AddCryptoClientAsScoped(configuration);
@@ -86,7 +95,7 @@ namespace CryptoRate.Core.UnitTests {
 		public void AddCryptoClientAsSingleton_Throws_When_CryptoClient_Config_IsNullOrWhiteSpace(string apiKey) {
 
 			//Arrange
-			var configuration = GetCryptoClientConfiguration(apiKey);
+			var configuration = GetRealCryptoClientConfiguration(apiKey);
 
 			//Act + Assert
 			services.AddCryptoClientAsScoped(configuration);

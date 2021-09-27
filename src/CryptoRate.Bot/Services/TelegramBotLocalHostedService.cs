@@ -1,4 +1,5 @@
-﻿using System.Threading;
+﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 using CryptoRate.Bot.Abstractions;
 using CryptoRate.Bot.Configs;
@@ -11,7 +12,6 @@ namespace CryptoRate.Bot.Services {
 	public class TelegramBotLocalHostedService : ITelegramBotLocalHostedService {
 
 		private readonly ITelegramBotService telegramBotService;
-		private readonly ICryptoClient cryptoClient;
 		private readonly ITelegramBotClient client;
 
 		private readonly TelegramBotOptions options;
@@ -19,16 +19,15 @@ namespace CryptoRate.Bot.Services {
 		private CancellationTokenSource cancellationTokenSource;
 		private Task pollingTask;
 
-
 		public TelegramBotLocalHostedService(IOptions<TelegramBotOptions> telegramBotOptions, ITelegramBotService telegramBotService, ICryptoClient cryptoClient) {
 			this.telegramBotService = telegramBotService;
-			this.cryptoClient = cryptoClient;
 			options = telegramBotOptions.Value;
 			client = new TelegramBotClient(options.Token);
 		}
 
 		/// <inheritdoc />
 		public Task StartAsync(CancellationToken cancellationToken) {
+			//TODO Log ("Starting telegram polling...");
 			cancellationTokenSource = new CancellationTokenSource();
 			pollingTask = Task.Run(() => client.ReceiveAsync(telegramBotService, cancellationTokenSource.Token), cancellationToken);
 			return Task.CompletedTask;
@@ -36,6 +35,7 @@ namespace CryptoRate.Bot.Services {
 
 		/// <inheritdoc />
 		public async Task StopAsync(CancellationToken cancellationToken) {
+			//TODO Log ("Stopping telegram polling...");
 			cancellationTokenSource.Cancel();
 			await pollingTask;
 		}

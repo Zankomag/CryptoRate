@@ -16,14 +16,10 @@ namespace CryptoRate.Bot {
 				.AddConfiguration()
 				.UseStartup<Core.Startup>()
 				.UseStartup<Startup>()
-				.ConfigureServices(services => services.AddSingleton/*AddHostedService*/<IHostedService, TelegramBotLocalHostedService>())
+				.ConfigureServices(services => services.AddHostedService<TelegramBotLocalHostedService>())
 				.Build();
-//
-			var service = host.Services.GetRequiredService<IHostedService>() as TelegramBotLocalHostedService;
-			await service.StartAsync(new CancellationTokenSource().Token);
-			Console.ReadLine();
 
-			//await host.RunAsync();
+			await host.RunAsync();
 		}
 
 	}

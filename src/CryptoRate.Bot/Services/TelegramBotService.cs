@@ -11,6 +11,7 @@ using Telegram.Bot.Types.Enums;
 using Telegram.Bot.Types.InlineQueryResults;
 using System.Linq;
 using System.Threading;
+// ReSharper disable SwitchStatementHandlesSomeKnownEnumValuesWithDefault
 
 namespace CryptoRate.Bot.Services {
 
@@ -68,7 +69,7 @@ namespace CryptoRate.Bot.Services {
 				await client.AnswerInlineQueryAsync(inlineQuery.Id,
 					new[] {
 						new InlineQueryResultCachedSticker(Guid.NewGuid().ToString(), random.Next(0, 2) > 0 ? options.GreenStickerFileId : options.RedStickerFileId)
-							{InputMessageContent = new InputTextMessageContent(TelegramBotService.GetCurrencyRateMessage(currencyRate)) {ParseMode = ParseMode.Markdown}}
+							{InputMessageContent = new InputTextMessageContent(GetCurrencyRateMessage(currencyRate)) {ParseMode = ParseMode.Markdown}}
 					});
 			}
 		}

@@ -1,11 +1,8 @@
-﻿using System;
-using System.Threading;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using CryptoRate.Bot.Services;
 using CryptoRate.Core.Extensions;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Telegram.Bot.Extensions.Polling;
 
 namespace CryptoRate.Bot {
 

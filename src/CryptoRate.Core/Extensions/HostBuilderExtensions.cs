@@ -53,7 +53,6 @@ namespace CryptoRate.Core.Extensions {
 		/// <returns></returns>
 		public static IHostBuilder AddConfiguration(this IHostBuilder hostBuilder) {
 			hostBuilder.ConfigureAppConfiguration((hostingContext, configurationBuilder) => {
-				configurationBuilder.AddEnvironmentVariables();
 				hostingContext.HostingEnvironment.EnvironmentName = EnvironmentWrapper.GetEnvironmentName();
 				
 				configurationBuilder.AddJsonFile("appsettings.json", false)
@@ -63,6 +62,8 @@ namespace CryptoRate.Core.Extensions {
 					var appAssembly = Assembly.GetExecutingAssembly();
 					configurationBuilder.AddUserSecrets(appAssembly, true);
 				}
+				//This is for reading config from Cloud Providers that don't support appsettings.json 
+				configurationBuilder.AddEnvironmentVariables();
 			});
 			return hostBuilder;
 		}

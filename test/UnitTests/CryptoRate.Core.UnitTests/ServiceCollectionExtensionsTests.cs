@@ -1,7 +1,7 @@
 using System.IO;
 using System.Text;
 using CryptoRate.Core.Configs;
-using CryptoRate.Core.Extensions;
+using CryptoRate.Common.Extensions;
 using CryptoRate.Core.UnitTests.Fixtures;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -74,13 +74,14 @@ namespace CryptoRate.Core.UnitTests {
 
 		[Theory]
 		[MemberData(nameof(CryptoClientFixture.RightApiKeys), MemberType = typeof(CryptoClientFixture))]
-		public void AddCryptoClientAsSingleton_Succeeds_When_CryptoClient_Config_IsRight(string apiKey) {
+		public void ConfigureServices_Succeeds_When_CryptoClient_Config_IsRight(string apiKey) {
 
 			//Arrange
 			var configuration = GetCryptoClientConfiguration(apiKey);
+			var startup = new Startup(configuration);
 
 			//Act
-			services.AddCryptoClientAsScoped(configuration);
+			startup.ConfigureServices(services);
 			var serviceProvider = services.BuildServiceProvider();
 			var options = serviceProvider.GetRequiredService<IOptions<CryptoClientOptions>>();
 
@@ -91,13 +92,14 @@ namespace CryptoRate.Core.UnitTests {
 
 		[Theory]
 		[MemberData(nameof(CryptoClientFixture.WrongApiKeysForJson), MemberType = typeof(CryptoClientFixture))]
-		public void AddCryptoClientAsSingleton_Throws_When_CryptoClient_Config_IsNullOrWhiteSpace(string apiKey) {
+		public void ConfigureServices_Throws_When_CryptoClient_Config_IsNullOrWhiteSpace(string apiKey) {
 
 			//Arrange
 			var configuration = GetCryptoClientConfiguration(apiKey);
+			var startup = new Startup(configuration);
 
 			//Act + Assert
-			services.AddCryptoClientAsScoped(configuration);
+			startup.ConfigureServices(services);
 			var serviceProvider = services.BuildServiceProvider();
 			Assert.Throws<OptionsValidationException>(() =>
 				serviceProvider.GetRequiredService<IOptions<CryptoClientOptions>>().Value);

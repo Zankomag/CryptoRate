@@ -2,7 +2,6 @@
 
     <PropertyGroup>
         <TargetFramework>net5.0</TargetFramework>
-				<UserSecretsId>b43ad939-bbba-4d51-b5d9-0bce27b06d84</UserSecretsId>
     </PropertyGroup>
 
     <ItemGroup>
@@ -26,6 +25,10 @@
       <Content Include="appsettings.json">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </Content>
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\CryptoRate.Common\CryptoRate.Common.csproj" />
     </ItemGroup>
 
 </Project>

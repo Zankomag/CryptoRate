@@ -1,8 +1,8 @@
 ﻿using CryptoRate.Bot.Abstractions;
 using CryptoRate.Bot.Configs;
 using CryptoRate.Bot.Services;
-using CryptoRate.Core.Abstractions;
-using CryptoRate.Core.Extensions;
+using CryptoRate.Common.Abstractions;
+using CryptoRate.Common.Extensions;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 

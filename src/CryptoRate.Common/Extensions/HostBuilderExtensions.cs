@@ -1,20 +1,18 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Reflection;
-using CryptoRate.Core.Abstractions;
-using CryptoRate.Core.Utils;
+using CryptoRate.Common.Abstractions;
+using CryptoRate.Common.Utils;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
-namespace CryptoRate.Core.Extensions {
+namespace CryptoRate.Common.Extensions {
 
 	/// <summary>
 	///     Extensions to emulate a typical "Startup.cs" pattern for <see cref="IHostBuilder" />
 	/// </summary>
 	public static class HostBuilderExtensions {
-
-		private const string configureServicesMethodName = "ConfigureServices";
 
 		/// <summary>
 		///     Specify the startup type to be used by the host.

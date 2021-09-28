@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 using CryptoRate.Bot.Services;
-using CryptoRate.Core.Extensions;
+using CryptoRate.Common.Extensions;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 

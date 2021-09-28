@@ -1,8 +1,8 @@
 using System;
 using System.Threading.Tasks;
+using CryptoRate.Common.Extensions;
+using CryptoRate.Common.Utils;
 using CryptoRate.Core.Abstractions;
-using CryptoRate.Core.Extensions;
-using CryptoRate.Core.Utils;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Xunit;

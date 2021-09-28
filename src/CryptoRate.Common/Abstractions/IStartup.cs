@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace CryptoRate.Core.Abstractions {
+namespace CryptoRate.Common.Abstractions {
 
 	public interface IStartup {
 

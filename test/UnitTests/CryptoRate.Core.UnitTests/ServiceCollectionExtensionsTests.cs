@@ -2,7 +2,6 @@ using System.IO;
 using System.Text;
 using CryptoRate.Core.Configs;
 using CryptoRate.Core.Extensions;
-using CryptoRate.Core.Services;
 using CryptoRate.Core.UnitTests.Fixtures;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -28,7 +27,7 @@ namespace CryptoRate.Core.UnitTests {
 		}
 
 		//This method is the same as GetMockedCryptoClientConfiguration, but does not use mocks
-		private static IConfiguration GetRealCryptoClientConfiguration(string apiKey) {
+		private static IConfiguration GetCryptoClientConfiguration(string apiKey) {
 			var appSettings = 
 				@$"{{
                        ""{CryptoClientOptions.SectionName}"": {{
@@ -78,7 +77,7 @@ namespace CryptoRate.Core.UnitTests {
 		public void AddCryptoClientAsSingleton_Succeeds_When_CryptoClient_Config_IsRight(string apiKey) {
 
 			//Arrange
-			var configuration = GetRealCryptoClientConfiguration(apiKey);
+			var configuration = GetCryptoClientConfiguration(apiKey);
 
 			//Act
 			services.AddCryptoClientAsScoped(configuration);
@@ -95,7 +94,7 @@ namespace CryptoRate.Core.UnitTests {
 		public void AddCryptoClientAsSingleton_Throws_When_CryptoClient_Config_IsNullOrWhiteSpace(string apiKey) {
 
 			//Arrange
-			var configuration = GetRealCryptoClientConfiguration(apiKey);
+			var configuration = GetCryptoClientConfiguration(apiKey);
 
 			//Act + Assert
 			services.AddCryptoClientAsScoped(configuration);

@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Reflection;
+using CryptoRate.Core.Abstractions;
 using CryptoRate.Core.Utils;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -18,29 +20,19 @@ namespace CryptoRate.Core.Extensions {
 		///     Specify the startup type to be used by the host.
 		/// </summary>
 		/// <typeparam name="TStartup">
-		///     The type containing an optional constructor with
+		///     The type containing a constructor with
 		///     an <see cref="IConfiguration" /> parameter. The implementation should contain a public
 		///     method named ConfigureServices with <see cref="IServiceCollection" /> parameter.
 		/// </typeparam>
 		/// <param name="hostBuilder">The <see cref="IHostBuilder" /> to initialize with TStartup.</param>
 		/// <returns>The same instance of the <see cref="IHostBuilder" /> for chaining.</returns>
-		public static IHostBuilder UseStartup<TStartup>(this IHostBuilder hostBuilder) where TStartup : class {
-			// Invoke the ConfigureServices method on IHostBuilder...
-			hostBuilder.ConfigureServices((ctx, serviceCollection) => {
-				// Find a method that has this signature: ConfigureServices(IServiceCollection)
-				var cfgServicesMethod = typeof(TStartup).GetMethod(configureServicesMethodName, new[] {typeof(IServiceCollection)});
-
-				// Check if TStartup has a ctor that takes a IConfiguration parameter
-				var hasConfigCtor = typeof(TStartup).GetConstructor(new[] {typeof(IConfiguration)}) != null;
-
-				// create a TStartup instance based on ctor
-				var startUpObj = hasConfigCtor ? (TStartup)Activator.CreateInstance(typeof(TStartup), ctx.Configuration) : (TStartup)Activator.CreateInstance(typeof(TStartup), null);
-
-				// finally, call the ConfigureServices implemented by the TStartup object
-				cfgServicesMethod?.Invoke(startUpObj, new object[] {serviceCollection});
+		public static IHostBuilder UseStartup<TStartup>(this IHostBuilder hostBuilder) where TStartup : IStartup {
+			hostBuilder.ConfigureServices((context, serviceCollection) => {
+				var startup = (TStartup)Activator.CreateInstance(typeof(TStartup), context.Configuration);
+				Debug.Assert(startup != null, nameof(startup) + " is null");
+				startup.ConfigureServices(serviceCollection);
 			});
-
-			// chain the response
+			
 			return hostBuilder;
 		}
 

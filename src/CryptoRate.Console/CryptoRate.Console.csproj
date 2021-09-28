@@ -6,6 +6,7 @@
   </PropertyGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\CryptoRate.Common\CryptoRate.Common.csproj" />
       <ProjectReference Include="..\CryptoRate.Core\CryptoRate.Core.csproj" />
     </ItemGroup>
 

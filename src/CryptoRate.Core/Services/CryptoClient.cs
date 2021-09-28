@@ -12,9 +12,7 @@ namespace CryptoRate.Core.Services {
 
 		private readonly CoinApiRestClient client;
 
-		public CryptoClient(IOptions<CryptoClientOptions> options) {
-			client = new CoinApiRestClient(options.Value.ApiKey);
-		}
+		public CryptoClient(IOptions<CryptoClientOptions> options) => client = new CoinApiRestClient(options.Value.ApiKey);
 
 		public async Task<Exchangerate> GetCurrencyRate(string currencyBase, string currencyQuote) {
 			if(String.IsNullOrWhiteSpace(currencyBase)) throw new ArgumentException("Value cannot be null or whitespace.", nameof(currencyBase));

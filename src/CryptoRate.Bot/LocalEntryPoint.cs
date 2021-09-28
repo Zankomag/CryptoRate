@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 using CryptoRate.Bot.Services;
-using CryptoRate.Core.Extensions;
+using CryptoRate.Common.Extensions;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
@@ -8,7 +8,7 @@ namespace CryptoRate.Bot {
 
 	public class LocalEntryPoint {
 
-		private static async Task Main(string[] args) {
+		private static async Task Main() {
 			var host = new HostBuilder()
 				.AddConfiguration()
 				.UseStartup<Core.Startup>()

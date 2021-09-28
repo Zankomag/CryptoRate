@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using Microsoft.Extensions.Options;
 
-namespace CryptoRate.Core.Utils {
+namespace CryptoRate.Common.Utils {
 
 	public sealed class OptionsValidator<TOptions> : IValidateOptions<TOptions> where TOptions : class {
 

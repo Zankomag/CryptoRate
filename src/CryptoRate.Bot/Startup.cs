@@ -1,19 +1,18 @@
 ﻿using CryptoRate.Bot.Abstractions;
 using CryptoRate.Bot.Configs;
 using CryptoRate.Bot.Services;
-using CryptoRate.Core.Extensions;
+using CryptoRate.Common.Abstractions;
+using CryptoRate.Common.Extensions;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace CryptoRate.Bot {
 
-	public class Startup {
+	public class Startup : StartupBase {
 
-		public IConfiguration Configuration { get; }
+		public Startup(IConfiguration configuration) : base(configuration) { }
 
-		public Startup(IConfiguration configuration) => Configuration = configuration;
-
-		public void ConfigureServices(IServiceCollection services) {
+		public override void ConfigureServices(IServiceCollection services) {
 			services.AddOptions<TelegramBotOptions>(Configuration, TelegramBotOptions.SectionName);
 			services.AddScoped<ITelegramBotService, TelegramBotService>();
 		}

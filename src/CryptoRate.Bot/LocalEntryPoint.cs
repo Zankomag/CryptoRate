@@ -13,7 +13,7 @@ namespace CryptoRate.Bot {
 				.AddConfiguration()
 				.UseStartup<Core.Startup>()
 				.UseStartup<Startup>()
-				.ConfigureServices(services => services.AddHostedService<TelegramBotLocalHostedService>())
+				.ConfigureServices(services => services.AddHostedService<TelegramBotLocalRunner>())
 				.Build();
 
 			await host.RunAsync();

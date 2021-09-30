@@ -2,12 +2,18 @@
 using System.Threading.Tasks;
 using CryptoRate.Bot.Abstractions;
 using CryptoRate.Bot.Configs;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 using Telegram.Bot;
 
+
 namespace CryptoRate.Bot.Services {
 
-	public class TelegramBotLocalHostedService : ITelegramBotLocalHostedService {
+
+	/// <summary>
+	/// This service should be used to run Telegram Bot on a local machine as it uses Telegram Bot API polling
+	/// </summary>
+	public class TelegramBotLocalRunner : IHostedService {
 
 		private readonly ITelegramBotService telegramBotService;
 		private readonly ITelegramBotClient client;
@@ -15,7 +21,7 @@ namespace CryptoRate.Bot.Services {
 		private CancellationTokenSource cancellationTokenSource;
 		private Task pollingTask;
 
-		public TelegramBotLocalHostedService(IOptions<TelegramBotOptions> telegramBotOptions, ITelegramBotService telegramBotService) {
+		public TelegramBotLocalRunner(IOptions<TelegramBotOptions> telegramBotOptions, ITelegramBotService telegramBotService) {
 			this.telegramBotService = telegramBotService;
 			TelegramBotOptions options = telegramBotOptions.Value;
 			client = new TelegramBotClient(options.Token);

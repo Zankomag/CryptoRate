@@ -10,7 +10,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{6C7DCF0C-491
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{3745DD3B-9CBC-4291-B824-FFBAF3354D65}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CryptoRate.Core.UnitTests", "test\UnitTests\CryptoRate.Core.UnitTests\CryptoRate.Core.UnitTests.csproj", "{8E0D82FF-291D-4042-91DA-D215B0E5C471}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CryptoRate.Common.UnitTests", "test\UnitTests\CryptoRate.Common.UnitTests\CryptoRate.Common.UnitTests.csproj", "{8E0D82FF-291D-4042-91DA-D215B0E5C471}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "IntegrationTests", "IntegrationTests", "{AF46F018-A872-4F68-959B-D69391431A29}"
 EndProject

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace CryptoRate.Core.UnitTests.Fixtures {
+namespace CryptoRate.Common.UnitTests.Fixtures {
 
 	public class CryptoClientFixture {
 

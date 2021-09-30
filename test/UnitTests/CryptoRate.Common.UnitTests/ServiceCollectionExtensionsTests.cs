@@ -2,14 +2,15 @@ using System.IO;
 using System.Text;
 using CryptoRate.Core.Configs;
 using CryptoRate.Common.Extensions;
-using CryptoRate.Core.UnitTests.Fixtures;
+using CryptoRate.Common.UnitTests.Fixtures;
+using CryptoRate.Core;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Moq;
 using Xunit;
 
-namespace CryptoRate.Core.UnitTests {
+namespace CryptoRate.Common.UnitTests {
 
 	public class ServiceCollectionExtensionsTests {
 

@@ -22,7 +22,7 @@ namespace CryptoRate.Bot.Services {
 	public class TelegramBotService : ITelegramBotService {
 
 		//Markdown template
-		private const string currencyRateMessageTemplate = "*₿* =  `${0:0.00}`\n\n_{1}_";
+		private const string currencyRateMessageTemplate = "*₿* = `${0:0.00}`\n\n_{1}_";
 		private readonly TelegramBotClient client;
 		private readonly ICryptoClient cryptoClient;
 		private readonly DateTime startTime;

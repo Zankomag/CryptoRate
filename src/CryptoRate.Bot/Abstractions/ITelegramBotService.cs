@@ -14,6 +14,8 @@ namespace CryptoRate.Bot.Abstractions {
 
 		Task HandleInlineQueryAsync(InlineQuery inlineQuery);
 
+		Task HandleUpdateAsync(Update update);
+
 	}
 
 }

@@ -11,6 +11,9 @@ using Telegram.Bot.Types.Enums;
 using Telegram.Bot.Types.InlineQueryResults;
 using System.Linq;
 using System.Threading;
+using CryptoRate.Common.Utils;
+using Telegram.Bot.Extensions.Polling;
+
 // ReSharper disable SwitchStatementHandlesSomeKnownEnumValuesWithDefault
 
 namespace CryptoRate.Bot.Services {
@@ -33,6 +36,7 @@ namespace CryptoRate.Bot.Services {
 			startTime = DateTime.UtcNow;
 		}
 
+		//TODO Add Async suffix here and everywhere we need
 		public async Task<Message> SendCurrencyRate(long chatId, Exchangerate currencyRate) {
 			string message = GetCurrencyRateMessage(currencyRate);
 			
@@ -47,7 +51,9 @@ namespace CryptoRate.Bot.Services {
 
 		public async Task HandleMessageAsync(Message message) {
 			//bot doesn't read old messages to avoid /*spam*/ 
-			if(message.Date < startTime) return;
+			// DISABLED DUE TO LAMBDA ISSUES
+			//TODO fix end enable
+			//if(message.Date < startTime) return;
 
 			//If command contains bot username we need to exclude it from command (/btc@MyBtcBot should be /btc)
 			int atIndex = message.Text.IndexOf('@');
@@ -58,6 +64,9 @@ namespace CryptoRate.Bot.Services {
 				case "/btctousd":
 					var currencyRate = await cryptoClient.GetBtcToUsdCurrencyRate();
 					await SendCurrencyRate(message.Chat.Id, currencyRate);
+					break;
+				case "/health":
+					await client.SendTextMessageAsync(message.From.Id, "Running, Environment: " + EnvironmentWrapper.GetEnvironmentName() + "\nstart time: " + startTime);
 					break;
 			}
 		}
@@ -75,7 +84,9 @@ namespace CryptoRate.Bot.Services {
 		}
 
 		/// <inheritdoc />
-		public async Task HandleUpdate(ITelegramBotClient botClient, Update update, CancellationToken cancellationToken) {
+		async Task IUpdateHandler.HandleUpdate(ITelegramBotClient botClient, Update update, CancellationToken cancellationToken) => await HandleUpdateAsync(update);
+		
+		public async Task HandleUpdateAsync(Update update) {
 			switch(update.Type) {
 				case UpdateType.Message:
 					if(update.Message.Type == MessageType.Text) await HandleMessageAsync(update.Message);

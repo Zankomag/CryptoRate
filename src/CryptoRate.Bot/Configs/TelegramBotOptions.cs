@@ -11,16 +11,16 @@ namespace CryptoRate.Bot.Configs {
 
 		[Required]
 		[RegularExpression(@"^\S*$", ErrorMessage = "No white space allowed")]
-		public string Token { get; init;  }
-		public long[] AdminIds { get; init;  }
+		public string Token { get; set;  }
+		public long[] AdminIds { get; set;  }
 
 		[Required]
 		[RegularExpression(@"^\S*$", ErrorMessage = "No white space allowed")]
-		public string RedStickerFileId { get; init;  }
+		public string RedStickerFileId { get; set;  }
 
 		[Required]
 		[RegularExpression(@"^\S*$", ErrorMessage = "No white space allowed")]
-		public string GreenStickerFileId { get; init;  }
+		public string GreenStickerFileId { get; set;  }
 
 	}
 

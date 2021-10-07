@@ -14,7 +14,7 @@ namespace CryptoRate.Bot {
 
 		public override void ConfigureServices(IServiceCollection services) {
 			services.AddOptions<TelegramBotOptions>(Configuration, TelegramBotOptions.SectionName);
-			services.AddScoped<ITelegramBotService, TelegramBotService>();
+			services.AddSingleton<ITelegramBotService, TelegramBotService>();
 		}
 
 	}

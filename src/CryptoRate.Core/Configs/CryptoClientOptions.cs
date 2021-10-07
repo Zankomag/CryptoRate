@@ -9,7 +9,7 @@ namespace CryptoRate.Core.Configs {
 
 		[Required]
 		[RegularExpression(@"^\S*$", ErrorMessage = "No white space allowed")]
-		public string ApiKey { get; init; }
+		public string ApiKey { get; set; }
 
 	}
 

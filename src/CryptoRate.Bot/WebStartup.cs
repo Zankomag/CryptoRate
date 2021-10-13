@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 
 namespace CryptoRate.Bot {
@@ -16,6 +17,10 @@ namespace CryptoRate.Bot {
 			Core.Startup coreStartup = new Core.Startup(Configuration);
 			coreStartup.ConfigureServices(services);
 			base.ConfigureServices(services);
+			services.AddLogging(x => {
+				x.AddConsole();
+				x.AddAWSProvider();
+			});
 			services.AddControllers()
 				.AddNewtonsoftJson(options => {
 					options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;

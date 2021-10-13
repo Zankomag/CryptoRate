@@ -58,23 +58,7 @@ namespace CryptoRate.Common.Extensions {
 			});
 			return hostBuilder;
 		}
-
-		public static IWebHostBuilder AddConfiguration(this IWebHostBuilder hostBuilder) {
-			hostBuilder.ConfigureAppConfiguration((hostingContext, configurationBuilder) => {
-				hostingContext.HostingEnvironment.EnvironmentName = EnvironmentWrapper.GetEnvironmentName();
-
-				configurationBuilder.AddJsonFile("appsettings.json", false)
-					.AddJsonFile($"appsettings.{hostingContext.HostingEnvironment.EnvironmentName}.json", false);
-
-				if(hostingContext.HostingEnvironment.IsDevelopment() && !String.IsNullOrEmpty(hostingContext.HostingEnvironment.ApplicationName)) {
-					configurationBuilder.AddUserSecrets<StartupBase>();
-				}
-
-				//This is for reading config from Cloud Providers that don't support appsettings.json 
-				configurationBuilder.AddEnvironmentVariables();
-			});
-			return hostBuilder;
-		}
+		
 
 	}
 

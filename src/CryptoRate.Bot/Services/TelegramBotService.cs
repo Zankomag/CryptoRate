@@ -59,6 +59,7 @@ namespace CryptoRate.Bot.Services {
 			int atIndex = message.Text.IndexOf('@');
 			string command = atIndex == -1 ? message.Text : message.Text[..atIndex];
 
+			//Command handler has such a simple and dirty implementation because telegram bot is really simple and made mostly for demonstration purpose
 			switch(command.ToLower()) {
 				case "/btc":
 				case "/btctousd":
@@ -66,7 +67,7 @@ namespace CryptoRate.Bot.Services {
 					await SendCurrencyRate(message.Chat.Id, currencyRate);
 					break;
 				case "/health":
-					await client.SendTextMessageAsync(message.From.Id, "Running, Environment: " + EnvironmentWrapper.GetEnvironmentName() + "\nstart time: " + startTime);
+					await client.SendTextMessageAsync(message.From.Id, $"Running, Environment: {EnvironmentWrapper.GetEnvironmentName()}\ndotnet {Environment.Version}\nstart time: {startTime}");
 					break;
 			}
 		}

@@ -14,7 +14,7 @@ namespace CryptoRate.Common.UnitTests {
 
 	public class ServiceCollectionExtensionsTests {
 
-		private static readonly ServiceCollection services = new ServiceCollection();
+		private static readonly ServiceCollection services = new ();
 
 		private static IConfiguration GetMockedCryptoClientConfiguration(string apiKey) {
 			var apiKeyConfigurationSectionMock = new Mock<IConfigurationSection>();

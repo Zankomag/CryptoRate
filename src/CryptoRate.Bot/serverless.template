@@ -8,9 +8,16 @@
     "Lambda": {
       "Type": "AWS::Serverless::Function",
       "Properties": {
-        "Handler": "CryptoRate.Bot::CryptoRate.Bot.LambdaEntryPoint::FunctionHandlerAsync",
-        "Runtime": "dotnetcore3.1",
-        "CodeUri": "",
+        "PackageType": "Image",
+        "ImageConfig": {
+          "EntryPoint": [
+            "/lambda-entrypoint.sh"
+          ],
+          "Command": [
+            "CryptoRate.Bot::CryptoRate.Bot.LambdaEntryPoint::FunctionHandlerAsync"
+          ]
+        },
+        "ImageUri": "",
         "MemorySize": 256,
         "Timeout": 30,
         "Role": null,

@@ -2,12 +2,16 @@
 
     <PropertyGroup>
         <OutputType>Exe</OutputType>
-        <TargetFramework>netcoreapp3.1</TargetFramework>
-  </PropertyGroup>
+        <TargetFramework>net6.0</TargetFramework>
+  	</PropertyGroup>
 
     <ItemGroup>
       <ProjectReference Include="..\CryptoRate.Common\CryptoRate.Common.csproj" />
       <ProjectReference Include="..\CryptoRate.Core\CryptoRate.Core.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="6.0.0-rc.2.21480.5" />
     </ItemGroup>
 
 </Project>

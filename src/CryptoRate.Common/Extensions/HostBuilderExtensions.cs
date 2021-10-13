@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Reflection;
+using CryptoRate.Common.Abstractions;
 using CryptoRate.Common.Utils;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -51,7 +52,7 @@ namespace CryptoRate.Common.Extensions {
 
 				if(hostingContext.HostingEnvironment.IsDevelopment() && !String.IsNullOrEmpty(hostingContext.HostingEnvironment.ApplicationName)) {
 					var appAssembly = Assembly.GetExecutingAssembly();
-					configurationBuilder.AddUserSecrets(appAssembly, true);
+					configurationBuilder.AddUserSecrets<StartupBase>();
 				}
 				//This is for reading config from Cloud Providers that don't support appsettings.json 
 				configurationBuilder.AddEnvironmentVariables();
@@ -68,7 +69,7 @@ namespace CryptoRate.Common.Extensions {
 
 				if(hostingContext.HostingEnvironment.IsDevelopment() && !String.IsNullOrEmpty(hostingContext.HostingEnvironment.ApplicationName)) {
 					var appAssembly = Assembly.GetExecutingAssembly();
-					configurationBuilder.AddUserSecrets(appAssembly, true);
+					configurationBuilder.AddUserSecrets<StartupBase>();
 				}
 
 				//This is for reading config from Cloud Providers that don't support appsettings.json 

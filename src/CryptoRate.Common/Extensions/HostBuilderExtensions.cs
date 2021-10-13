@@ -51,7 +51,6 @@ namespace CryptoRate.Common.Extensions {
 					.AddJsonFile($"appsettings.{hostingContext.HostingEnvironment.EnvironmentName}.json", false);
 
 				if(hostingContext.HostingEnvironment.IsDevelopment() && !String.IsNullOrEmpty(hostingContext.HostingEnvironment.ApplicationName)) {
-					var appAssembly = Assembly.GetExecutingAssembly();
 					configurationBuilder.AddUserSecrets<StartupBase>();
 				}
 				//This is for reading config from Cloud Providers that don't support appsettings.json 
@@ -68,7 +67,6 @@ namespace CryptoRate.Common.Extensions {
 					.AddJsonFile($"appsettings.{hostingContext.HostingEnvironment.EnvironmentName}.json", false);
 
 				if(hostingContext.HostingEnvironment.IsDevelopment() && !String.IsNullOrEmpty(hostingContext.HostingEnvironment.ApplicationName)) {
-					var appAssembly = Assembly.GetExecutingAssembly();
 					configurationBuilder.AddUserSecrets<StartupBase>();
 				}
 

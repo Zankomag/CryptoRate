@@ -10,8 +10,8 @@ namespace CryptoRate.Bot {
 	public class LocalEntryPoint {
 
 		private static async Task Main() {
-			//var host = GetHost();
-			var host = GetWebHost();
+			var host = GetHost();
+			//var host = GetWebHost();
 
 			await host.RunAsync();
 		}
@@ -24,12 +24,13 @@ namespace CryptoRate.Bot {
 				.ConfigureServices(services => services.AddHostedService<TelegramBotLocalRunner>())
 				.Build();
 
-		private static IWebHost GetWebHost()
-			=> new WebHostBuilder()
-				.UseUrls("https://*:5930")
-				.UseKestrel()
+		private static IHost GetWebHost()
+			=> new HostBuilder()
+				.ConfigureWebHost(x =>
+					x.UseKestrel()
+						.UseUrls("https://*:5930")
+						.UseStartup<WebStartup>())
 				.AddConfiguration()
-				.UseStartup<WebStartup>()
 				.Build();
 
 	}

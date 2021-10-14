@@ -1,5 +1,7 @@
 ﻿FROM public.ecr.aws/lambda/dotnet:5.0
 
+RUN yum update ca-certificates -y
+
 WORKDIR /var/task
 
 # This COPY command copies the .NET Lambda project's build artifacts from the host machine into the image. 

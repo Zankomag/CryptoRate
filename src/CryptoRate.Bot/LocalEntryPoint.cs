@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using CryptoRate.Bot.Services;
 using CryptoRate.Common.Extensions;
 using Microsoft.AspNetCore.Hosting;
@@ -10,9 +11,9 @@ namespace CryptoRate.Bot {
 	public class LocalEntryPoint {
 
 		private static async Task Main() {
-			//var host = GetHost();
-			var host = GetWebHost();
-
+			var host = GetHost();
+			//var host = GetWebHost();
+			
 			await host.RunAsync();
 		}
 

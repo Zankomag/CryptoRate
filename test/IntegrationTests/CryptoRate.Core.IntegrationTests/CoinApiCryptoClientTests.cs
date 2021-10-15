@@ -40,8 +40,8 @@ namespace CryptoRate.Core.IntegrationTests {
 
 			//Arrange
 			var cryptoClient = GetCryptoClient();
-			const string baseCurrency = "BTC";
-			const string quoteCurrency = "USD";
+			const string baseCurrency = Currency.Bitcoin;
+			const string quoteCurrency = Currency.Usd;
 
 			//Act
 			var result = await cryptoClient.GetCurrencyRate(baseCurrency, quoteCurrency);

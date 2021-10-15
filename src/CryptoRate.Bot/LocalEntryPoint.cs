@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using CryptoRate.Bot.Services;
 using CryptoRate.Common.Extensions;
+using CryptoRate.Core.Extensions;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -20,7 +21,6 @@ namespace CryptoRate.Bot {
 		private static IHost GetHost()
 			=> new HostBuilder()
 				.AddConfiguration()
-				.UseStartup<Core.Startup>()
 				.UseStartup<Startup>()
 				.ConfigureServices(services => services.AddHostedService<TelegramBotLocalRunner>())
 				.Build();

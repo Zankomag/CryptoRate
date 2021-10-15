@@ -3,23 +3,25 @@ using System.Threading.Tasks;
 using CryptoRate.Common.Extensions;
 using CryptoRate.Common.Utils;
 using CryptoRate.Core.Abstractions;
+using CryptoRate.Core.Enums;
+using CryptoRate.Core.Extensions;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Xunit;
 
 namespace CryptoRate.Core.IntegrationTests {
 
-	public class CryptoClientTests {
+	public class CoinApiCryptoClientTests {
 
 		private readonly IHost host;
 
-		public CryptoClientTests() {
+		public CoinApiCryptoClientTests() {
 			//TODO try the other way to set env
 			Environment.SetEnvironmentVariable(EnvironmentWrapper.EnvironmentName, EnvironmentWrapper.Development);
 
 			host = new HostBuilder()
 				.AddConfiguration()
-				.UseStartup<Startup>()
+				.ConfigureServices((context, services) => services.AddCryptoRateServices(context.Configuration))
 				.Build();
 		}
 

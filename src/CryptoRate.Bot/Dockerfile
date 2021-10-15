@@ -1,5 +1,7 @@
 ﻿FROM public.ecr.aws/lambda/dotnet:5.0
 
+# This is used because in the lates image R3 Let's Encrypt cers are not validated due to expiration of root cert,
+# however second root certs which cross-signs R3 cert is not trusted in the image, so we need to update trusted certs
 RUN yum update ca-certificates -y
 
 WORKDIR /var/task

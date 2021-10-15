@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Threading.Tasks;
 using CryptoRate.Common.Extensions;
-using CryptoRate.Core;
 using CryptoRate.Core.Abstractions;
+using CryptoRate.Core.Extensions;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+
 // ReSharper disable TemplateIsNotCompileTimeConstantProblem
 
 namespace CryptoRate.Console {
@@ -15,8 +16,10 @@ namespace CryptoRate.Console {
 		private static async Task Main() {
 			var host = new HostBuilder()
 				.AddConfiguration()
-				.UseStartup<Startup>()
-				.ConfigureServices(x => x.AddLogging(logging => logging.AddConsole()))
+				.ConfigureServices((context, services) => {
+					services.AddLogging(logging => logging.AddConsole());
+					services.AddCryptoRateServices(context.Configuration);
+				})
 				.Build();
 
 			var logger = host.Services.GetRequiredService<ILogger<Program>>();

@@ -14,13 +14,8 @@ namespace CryptoRate.Bot {
 		public WebStartup(IConfiguration configuration) : base(configuration) { }
 
 		public override void ConfigureServices(IServiceCollection services) {
-			Core.Startup coreStartup = new Core.Startup(Configuration);
-			coreStartup.ConfigureServices(services);
 			base.ConfigureServices(services);
-			services.AddLogging(x => {
-				x.AddConsole();
-				x.AddAWSProvider();
-			});
+			services.AddLogging(x => x.AddConsole());
 			services.AddControllers()
 				.AddNewtonsoftJson(options => {
 					options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
@@ -42,7 +37,7 @@ namespace CryptoRate.Bot {
 			app.UseHealthChecks("/healthCheck");
 			app.UseEndpoints(endpoints => {
 				endpoints.MapControllers();
-				endpoints.MapGet("/", async context => { await context.Response.WriteAsync("Welcome to running ASP.NET Core on AWS Lambda"); });
+				endpoints.MapGet("/", async context => await context.Response.WriteAsync("Welcome to running ASP.NET Core on AWS Lambda"));
 			});
 		}
 

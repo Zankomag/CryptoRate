@@ -9,13 +9,13 @@ using Microsoft.Extensions.Options;
 
 namespace CryptoRate.Core.Services {
 
-	public class CryptoClient : ICryptoClient {
+	public class CoinApiCryptoClient : ICryptoClient {
 
-		private readonly ILogger<CryptoClient> logger;
+		private readonly ILogger<CoinApiCryptoClient> logger;
 
 		private readonly CoinApiRestClient client;
 
-		public CryptoClient(IOptions<CryptoClientOptions> options, ILogger<CryptoClient> logger) {
+		public CoinApiCryptoClient(IOptions<CryptoClientOptions> options, ILogger<CoinApiCryptoClient> logger) {
 			this.logger = logger;
 			client = new CoinApiRestClient(options.Value.ApiKey);
 		}
@@ -31,8 +31,6 @@ namespace CryptoRate.Core.Services {
 			}
 			return result;
 		}
-
-		public async Task<Exchangerate> GetBtcToUsdCurrencyRate() => await GetCurrencyRate("BTC", "USD");
 
 	}
 

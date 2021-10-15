@@ -4,15 +4,21 @@ using CoinAPI.REST.V1;
 using CoinAPI.REST.V1.Exceptions;
 using CryptoRate.Core.Abstractions;
 using CryptoRate.Core.Configs;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
 namespace CryptoRate.Core.Services {
 
-	public class CryptoClient : ICryptoClient {
+	public class CoinApiCryptoClient : ICryptoClient {
+
+		private readonly ILogger<CoinApiCryptoClient> logger;
 
 		private readonly CoinApiRestClient client;
 
-		public CryptoClient(IOptions<CryptoClientOptions> options) => client = new CoinApiRestClient(options.Value.ApiKey);
+		public CoinApiCryptoClient(IOptions<CryptoClientOptions> options, ILogger<CoinApiCryptoClient> logger) {
+			this.logger = logger;
+			client = new CoinApiRestClient(options.Value.ApiKey);
+		}
 
 		public async Task<Exchangerate> GetCurrencyRate(string currencyBase, string currencyQuote) {
 			if(String.IsNullOrWhiteSpace(currencyBase)) throw new ArgumentException("Value cannot be null or whitespace.", nameof(currencyBase));
@@ -21,12 +27,10 @@ namespace CryptoRate.Core.Services {
 			try {
 				result = await client.Exchange_rates_get_specific_rateAsync(currencyBase, currencyQuote);
 			} catch(CoinApiException ex) {
-				//TODO Log exception
+				logger.LogError(ex, "CoinAPI exception: ");
 			}
 			return result;
 		}
-
-		public async Task<Exchangerate> GetBtcToUsdCurrencyRate() => await GetCurrencyRate("BTC", "USD");
 
 	}
 

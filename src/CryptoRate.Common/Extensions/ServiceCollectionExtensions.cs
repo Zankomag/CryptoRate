@@ -10,7 +10,8 @@ namespace CryptoRate.Common.Extensions {
 	public static class ServiceCollectionExtensions {
 
 		public static IServiceCollection AddOptions<TOptions>(this IServiceCollection services, IConfiguration configuration, string sectionName) where TOptions : class {
-			services.Configure<TOptions>(configuration.GetSection(sectionName));
+			var configSection = configuration.GetSection(sectionName);
+			services.Configure<TOptions>(configSection);
 			services.AddOptionsValidator<TOptions>();
 			return services;
 		}

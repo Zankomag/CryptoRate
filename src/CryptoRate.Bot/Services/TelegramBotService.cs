@@ -12,6 +12,8 @@ using Telegram.Bot.Types.InlineQueryResults;
 using System.Linq;
 using System.Threading;
 using CryptoRate.Common.Utils;
+using CryptoRate.Core.Extensions;
+using Microsoft.Extensions.Logging;
 using Telegram.Bot.Extensions.Polling;
 
 // ReSharper disable SwitchStatementHandlesSomeKnownEnumValuesWithDefault
@@ -25,12 +27,14 @@ namespace CryptoRate.Bot.Services {
 		private const string currencyRateMessageTemplate = "*₿* = `${0:0.00}`\n\n_{1}_";
 		private readonly TelegramBotClient client;
 		private readonly ICryptoClient cryptoClient;
+		private readonly ILogger<TelegramBotService> logger;
 		private readonly DateTime startTime;
 
 		private readonly TelegramBotOptions options;
 
-		public TelegramBotService(IOptions<TelegramBotOptions> telegramBotOptions, ICryptoClient cryptoClient) {
+		public TelegramBotService(IOptions<TelegramBotOptions> telegramBotOptions, ICryptoClient cryptoClient, ILogger<TelegramBotService> logger) {
 			this.cryptoClient = cryptoClient;
+			this.logger = logger;
 			options = telegramBotOptions.Value;
 			client = new TelegramBotClient(options.Token);
 			startTime = DateTime.UtcNow;
@@ -59,14 +63,20 @@ namespace CryptoRate.Bot.Services {
 			int atIndex = message.Text.IndexOf('@');
 			string command = atIndex == -1 ? message.Text : message.Text[..atIndex];
 
+			//Command handler has such a simple and dirty implementation because telegram bot is really simple and made mostly for demonstration purpose
 			switch(command.ToLower()) {
 				case "/btc":
 				case "/btctousd":
-					var currencyRate = await cryptoClient.GetBtcToUsdCurrencyRate();
-					await SendCurrencyRate(message.Chat.Id, currencyRate);
+					await SendCurrencyRate(message.Chat.Id, await cryptoClient.GetBitcoinToUsdCurrencyRate());
+					break;
+				case "/eth":
+				case "/ethtousd":
+					await SendCurrencyRate(message.Chat.Id, await cryptoClient.GetEthereumToUsdCurrencyRate());
 					break;
 				case "/health":
-					await client.SendTextMessageAsync(message.From.Id, "Running, Environment: " + EnvironmentWrapper.GetEnvironmentName() + "\nstart time: " + startTime);
+					//TODO it's added for logging test, remove later
+					logger.LogInformation("Requested telegram bot health check");
+					await client.SendTextMessageAsync(message.From.Id, $"Running, Environment: {EnvironmentWrapper.GetEnvironmentName()}\ndotnet {Environment.Version}\nstart time: {startTime}");
 					break;
 			}
 		}
@@ -74,7 +84,7 @@ namespace CryptoRate.Bot.Services {
 		public async Task HandleInlineQueryAsync(InlineQuery inlineQuery) {
 			Random random = new Random();
 			if(options.AdminIds.Contains(inlineQuery.From.Id)) {
-				var currencyRate = await cryptoClient.GetBtcToUsdCurrencyRate();
+				var currencyRate = await cryptoClient.GetBitcoinToUsdCurrencyRate();
 				await client.AnswerInlineQueryAsync(inlineQuery.Id,
 					new[] {
 						new InlineQueryResultCachedSticker(Guid.NewGuid().ToString(), random.Next(0, 2) > 0 ? options.GreenStickerFileId : options.RedStickerFileId)

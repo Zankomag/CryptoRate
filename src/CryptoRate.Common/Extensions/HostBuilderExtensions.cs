@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Reflection;
+using CryptoRate.Common.Abstractions;
 using CryptoRate.Common.Utils;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -50,32 +51,14 @@ namespace CryptoRate.Common.Extensions {
 					.AddJsonFile($"appsettings.{hostingContext.HostingEnvironment.EnvironmentName}.json", false);
 
 				if(hostingContext.HostingEnvironment.IsDevelopment() && !String.IsNullOrEmpty(hostingContext.HostingEnvironment.ApplicationName)) {
-					var appAssembly = Assembly.GetExecutingAssembly();
-					configurationBuilder.AddUserSecrets(appAssembly, true);
+					configurationBuilder.AddUserSecrets<StartupBase>();
 				}
 				//This is for reading config from Cloud Providers that don't support appsettings.json 
 				configurationBuilder.AddEnvironmentVariables();
 			});
 			return hostBuilder;
 		}
-
-		public static IWebHostBuilder AddConfiguration(this IWebHostBuilder hostBuilder) {
-			hostBuilder.ConfigureAppConfiguration((hostingContext, configurationBuilder) => {
-				hostingContext.HostingEnvironment.EnvironmentName = EnvironmentWrapper.GetEnvironmentName();
-
-				configurationBuilder.AddJsonFile("appsettings.json", false)
-					.AddJsonFile($"appsettings.{hostingContext.HostingEnvironment.EnvironmentName}.json", false);
-
-				if(hostingContext.HostingEnvironment.IsDevelopment() && !String.IsNullOrEmpty(hostingContext.HostingEnvironment.ApplicationName)) {
-					var appAssembly = Assembly.GetExecutingAssembly();
-					configurationBuilder.AddUserSecrets(appAssembly, true);
-				}
-
-				//This is for reading config from Cloud Providers that don't support appsettings.json 
-				configurationBuilder.AddEnvironmentVariables();
-			});
-			return hostBuilder;
-		}
+		
 
 	}
 

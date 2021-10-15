@@ -4,6 +4,7 @@ using CryptoRate.Core.Configs;
 using CryptoRate.Common.Extensions;
 using CryptoRate.Common.UnitTests.Fixtures;
 using CryptoRate.Core;
+using CryptoRate.Core.Extensions;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
@@ -14,7 +15,7 @@ namespace CryptoRate.Common.UnitTests {
 
 	public class ServiceCollectionExtensionsTests {
 
-		private static readonly ServiceCollection services = new ServiceCollection();
+		private static readonly ServiceCollection services = new ();
 
 		private static IConfiguration GetMockedCryptoClientConfiguration(string apiKey) {
 			var apiKeyConfigurationSectionMock = new Mock<IConfigurationSection>();
@@ -79,10 +80,9 @@ namespace CryptoRate.Common.UnitTests {
 
 			//Arrange
 			var configuration = GetCryptoClientConfiguration(apiKey);
-			var startup = new Startup(configuration);
 
 			//Act
-			startup.ConfigureServices(services);
+			services.AddCryptoRateServices(configuration);
 			var serviceProvider = services.BuildServiceProvider();
 			var options = serviceProvider.GetRequiredService<IOptions<CryptoClientOptions>>();
 
@@ -97,10 +97,9 @@ namespace CryptoRate.Common.UnitTests {
 
 			//Arrange
 			var configuration = GetCryptoClientConfiguration(apiKey);
-			var startup = new Startup(configuration);
 
 			//Act + Assert
-			startup.ConfigureServices(services);
+			services.AddCryptoRateServices(configuration);
 			var serviceProvider = services.BuildServiceProvider();
 			Assert.Throws<OptionsValidationException>(() =>
 				serviceProvider.GetRequiredService<IOptions<CryptoClientOptions>>().Value);

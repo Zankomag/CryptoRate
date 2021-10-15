@@ -1,11 +1,12 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFramework>netcoreapp3.1</TargetFramework>
+        <TargetFramework>net5.0</TargetFramework>
     </PropertyGroup>
 
     <ItemGroup>
       <PackageReference Include="CoinAPI.REST.V1" Version="2.0.7" />
+      <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="5.0.0" />
     </ItemGroup>
 
     <ItemGroup>
@@ -14,6 +15,10 @@
       </Content>
       <Content Include="appsettings.json">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </Content>
+      <Content Include="appsettings.Production.json">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        <DependentUpon>appsettings.json</DependentUpon>
       </Content>
     </ItemGroup>
 

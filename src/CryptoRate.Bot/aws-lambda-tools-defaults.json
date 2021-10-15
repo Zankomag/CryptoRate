@@ -8,7 +8,6 @@
 	"profile": "default",
 	"region": "eu-north-1",
 	"configuration": "Release",
-	"framework": "netcoreapp3.1",
 	"s3-prefix": "CryptoRateBot/",
 	"template": "serverless.template",
 	"template-parameters": "",

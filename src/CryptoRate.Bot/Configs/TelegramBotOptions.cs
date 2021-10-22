@@ -2,6 +2,8 @@
 // ReSharper disable UnusedAutoPropertyAccessor.Global
 
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using CryptoRate.Common.Attributes;
 
 namespace CryptoRate.Bot.Configs {
 
@@ -11,16 +13,22 @@ namespace CryptoRate.Bot.Configs {
 
 		[Required]
 		[RegularExpression(@"^\S*$", ErrorMessage = "No white space allowed")]
-		public string Token { get; set;  }
-		public long[] AdminIds { get; set;  }
+		public string Token { get; init;  }
+		public long[] AdminIds { get; init;  }
 
 		[Required]
 		[RegularExpression(@"^\S*$", ErrorMessage = "No white space allowed")]
-		public string RedStickerFileId { get; set;  }
+		public string RedStickerFileId { get; init;  }
 
 		[Required]
 		[RegularExpression(@"^\S*$", ErrorMessage = "No white space allowed")]
-		public string GreenStickerFileId { get; set;  }
+		public string GreenStickerFileId { get; init;  }
+
+		[Required]
+		[FormatStringPlaceholderIndexesCount(5)]
+		public string CurrencyRateMarkdownMessageTemplate { get; init; }
+
+		public bool IsUserAdmin(long userId) => AdminIds.Contains(userId);
 
 	}
 

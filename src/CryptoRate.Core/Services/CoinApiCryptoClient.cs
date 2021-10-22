@@ -20,6 +20,7 @@ namespace CryptoRate.Core.Services {
 			client = new CoinApiRestClient(options.Value.ApiKey);
 		}
 
+		//TODO Add handler if currency code in request was wrong
 		public async Task<Exchangerate> GetCurrencyRate(string currencyBase, string currencyQuote) {
 			if(String.IsNullOrWhiteSpace(currencyBase)) throw new ArgumentException("Value cannot be null or whitespace.", nameof(currencyBase));
 			if(String.IsNullOrWhiteSpace(currencyQuote)) throw new ArgumentException("Value cannot be null or whitespace.", nameof(currencyQuote));

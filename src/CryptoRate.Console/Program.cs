@@ -11,7 +11,7 @@ using Microsoft.Extensions.Logging;
 // ReSharper disable TemplateIsNotCompileTimeConstantProblem
 
 namespace CryptoRate.Console {
-//TODO rename solution and repo to CryptoRate (without bot)
+
 	public class Program {
 
 		private static async Task Main() {

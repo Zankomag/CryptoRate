@@ -1,8 +1,6 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using CryptoRate.Bot.Services;
 using CryptoRate.Common.Extensions;
-using CryptoRate.Core.Extensions;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -31,7 +29,7 @@ namespace CryptoRate.Bot {
 				.ConfigureWebHost(x =>
 					x.UseKestrel()
 						.UseUrls("https://*:5930")
-						.UseStartup<WebStartup>())
+						.UseStartup<Startup>())
 				.Build();
 
 	}

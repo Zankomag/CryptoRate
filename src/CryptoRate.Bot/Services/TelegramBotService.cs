@@ -1,20 +1,20 @@
 ﻿using System;
+using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using CoinAPI.REST.V1;
 using CryptoRate.Bot.Abstractions;
 using CryptoRate.Bot.Configs;
+using CryptoRate.Common.Utils;
 using CryptoRate.Core.Abstractions;
+using CryptoRate.Core.Enums;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Telegram.Bot;
+using Telegram.Bot.Extensions.Polling;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 using Telegram.Bot.Types.InlineQueryResults;
-using System.Linq;
-using System.Threading;
-using CryptoRate.Common.Utils;
-using CryptoRate.Core.Extensions;
-using Microsoft.Extensions.Logging;
-using Telegram.Bot.Extensions.Polling;
 
 // ReSharper disable SwitchStatementHandlesSomeKnownEnumValuesWithDefault
 
@@ -22,36 +22,26 @@ namespace CryptoRate.Bot.Services {
 
 //TODO add inline mode for getting rate in any chat
 	public class TelegramBotService : ITelegramBotService {
-
-		//Markdown template
-		private const string currencyRateMessageTemplate = "*₿* = `${0:0.00}`\n\n_{1}_";
+		
 		private readonly TelegramBotClient client;
 		private readonly ICryptoClient cryptoClient;
 		private readonly ILogger<TelegramBotService> logger;
 		private readonly DateTime startTime;
 
 		private readonly TelegramBotOptions options;
+		private readonly string botUsername;
+
+		/// <inheritdoc />
+		public UpdateType[] AllowedUpdates { get; } = { UpdateType.Message, UpdateType.InlineQuery };
 
 		public TelegramBotService(IOptions<TelegramBotOptions> telegramBotOptions, ICryptoClient cryptoClient, ILogger<TelegramBotService> logger) {
 			this.cryptoClient = cryptoClient;
 			this.logger = logger;
 			options = telegramBotOptions.Value;
 			client = new TelegramBotClient(options.Token);
+			botUsername = client.GetMeAsync().Result.Username;
 			startTime = DateTime.UtcNow;
 		}
-
-		//TODO Add Async suffix here and everywhere we need
-		public async Task<Message> SendCurrencyRate(long chatId, Exchangerate currencyRate) {
-			string message = GetCurrencyRateMessage(currencyRate);
-			
-			var result = await client.SendTextMessageAsync(chatId, message, ParseMode.Markdown);
-			return result;
-		}
-		
-		private static string GetCurrencyRateMessage(Exchangerate currencyRate) 
-			=> currencyRate != null
-				? String.Format(currencyRateMessageTemplate, currencyRate.rate, currencyRate.time.Date.ToString("dd/MM/yyyy"))
-				: "Sorry, I've received an error from CoinAPI. Make sure limits are not drained.";
 
 		public async Task HandleMessageAsync(Message message) {
 			//bot doesn't read old messages to avoid /*spam*/ 
@@ -61,41 +51,64 @@ namespace CryptoRate.Bot.Services {
 
 			//If command contains bot username we need to exclude it from command (/btc@MyBtcBot should be /btc)
 			int atIndex = message.Text.IndexOf('@');
+			
+			//Bot should not respond to commands in group chats without direct mention
+			if(message.From.Id != message.Chat.Id && atIndex != -1 && message.Text[(atIndex + 1)..] != botUsername) 
+				return;
+			
 			string command = atIndex == -1 ? message.Text : message.Text[..atIndex];
 
 			//Command handler has such a simple and dirty implementation because telegram bot is really simple and made mostly for demonstration purpose
 			switch(command.ToLower()) {
 				case "/btc":
 				case "/btctousd":
-					await SendCurrencyRate(message.Chat.Id, await cryptoClient.GetBitcoinToUsdCurrencyRate());
+					await SendCurrencyRate(message.Chat.Id, CurrencyCode.Bitcoin, CurrencyCode.Usd);
 					break;
 				case "/eth":
 				case "/ethtousd":
-					await SendCurrencyRate(message.Chat.Id, await cryptoClient.GetEthereumToUsdCurrencyRate());
+					await SendCurrencyRate(message.Chat.Id, CurrencyCode.Ethereum, CurrencyCode.Usd);
 					break;
 				case "/health":
-					//TODO it's added for logging test, remove later
-					logger.LogInformation("Requested telegram bot health check");
-					await client.SendTextMessageAsync(message.From.Id, $"Running, Environment: {EnvironmentWrapper.GetEnvironmentName()}\ndotnet {Environment.Version}\nstart time: {startTime}");
+					if(options.IsUserAdmin(message.From.Id)) {
+						await client.SendTextMessageAsync(message.From.Id, $"Running\nEnvironment: {EnvironmentWrapper.GetEnvironmentName()}\ndotnet {Environment.Version}\nstart time: {startTime}");
+					}
 					break;
 			}
 		}
 
+		public async Task<Message> SendCurrencyRate(long chatId, string currencyBase, string currencyQuote)
+			=> await SendCurrencyRate(chatId,
+				await cryptoClient.GetCurrencyRate(currencyBase, currencyQuote),
+				currencyBase.GetCurrencyCharByCode(),
+				currencyQuote.GetCurrencyCharByCode());
+
 		public async Task HandleInlineQueryAsync(InlineQuery inlineQuery) {
-			Random random = new Random();
-			if(options.AdminIds.Contains(inlineQuery.From.Id)) {
-				var currencyRate = await cryptoClient.GetBitcoinToUsdCurrencyRate();
+			if(options.IsUserAdmin(inlineQuery.From.Id)) {
+				Random random = new();
+				string baseCurrency, quoteCurrency;
+				if(String.IsNullOrWhiteSpace(inlineQuery.Query)) {
+					baseCurrency = CurrencyCode.Bitcoin;
+					quoteCurrency = CurrencyCode.Usd;
+				} else {
+					var currencyCodes = inlineQuery.Query.Split(' ');
+					baseCurrency = currencyCodes[0].ToUpper();
+					quoteCurrency = currencyCodes.Length > 1 ? currencyCodes[1].ToUpper() : CurrencyCode.Usd;
+				}
+				
+				var currencyRate = await cryptoClient.GetCurrencyRate(baseCurrency, quoteCurrency);
 				await client.AnswerInlineQueryAsync(inlineQuery.Id,
 					new[] {
-						new InlineQueryResultCachedSticker(Guid.NewGuid().ToString(), random.Next(0, 2) > 0 ? options.GreenStickerFileId : options.RedStickerFileId)
-							{InputMessageContent = new InputTextMessageContent(GetCurrencyRateMessage(currencyRate)) {ParseMode = ParseMode.Markdown}}
+						new InlineQueryResultCachedSticker(Guid.NewGuid().ToString(), random.Next(0, 2) > 0 ? options.GreenStickerFileId : options.RedStickerFileId) {
+							InputMessageContent = new InputTextMessageContent(GetCurrencyRateMessage(currencyRate, baseCurrency.GetCurrencyCharByCode(), quoteCurrency.GetCurrencyCharByCode()))
+								{ ParseMode = ParseMode.Markdown }
+						}
 					});
 			}
 		}
 
 		/// <inheritdoc />
 		async Task IUpdateHandler.HandleUpdate(ITelegramBotClient botClient, Update update, CancellationToken cancellationToken) => await HandleUpdateAsync(update);
-		
+
 		public async Task HandleUpdateAsync(Update update) {
 			switch(update.Type) {
 				case UpdateType.Message:
@@ -110,13 +123,37 @@ namespace CryptoRate.Bot.Services {
 		}
 
 		/// <inheritdoc />
-		public Task HandleError(ITelegramBotClient botClient, Exception exception, CancellationToken cancellationToken) {
+		public Task HandleError(ITelegramBotClient botClient, Exception exception, CancellationToken cancellationToken) =>
+
 			//TODO Log exception
-			return Task.CompletedTask;
+			Task.CompletedTask;
+
+		//TODO Add Async suffix here and everywhere we need
+		public async Task<Message> SendCurrencyRate(long chatId, Exchangerate currencyRate, string baseCurrencyChar, string quoteCurrencyChar) {
+			string message = GetCurrencyRateMessage(currencyRate, baseCurrencyChar, quoteCurrencyChar);
+
+			var result = await client.SendTextMessageAsync(chatId, message, ParseMode.Markdown);
+			return result;
 		}
 
-		/// <inheritdoc />
-		public UpdateType[] AllowedUpdates { get; } = {UpdateType.Message, UpdateType.InlineQuery};
+		private string GetCurrencyRateMessage(Exchangerate currencyRate, string baseCurrencyChar, string quoteCurrencyChar) {
+			if(currencyRate != null) {
+				string currencySignAndAmountSeparator = null;
+
+				//This is used to make output more convenient if there is no char for currency code (USD500 vs USD 500)
+				if(quoteCurrencyChar == currencyRate.asset_id_quote)
+					currencySignAndAmountSeparator = " ";
+				return String.Format(options.CurrencyRateMarkdownMessageTemplate,
+					baseCurrencyChar,
+					quoteCurrencyChar,
+					currencyRate.rate,
+					currencyRate.time.Date.ToString("dd/MM/yyyy"),
+					currencySignAndAmountSeparator);
+			}
+			return "Sorry, I've received an error from CoinAPI. Make sure limits are not drained.";
+
+			//TODO Add handler if currency code in request was wrong (in crypto client)
+		}
 
 	}
 

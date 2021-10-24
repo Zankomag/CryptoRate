@@ -1,0 +1,24 @@
+﻿@page "/btc"
+@using CryptoRate.Core.Enums
+@using CoinAPI.REST.V1
+@inject ICryptoClient cryptoClient
+
+<h1>Bitcoin to USD Rate</h1>
+
+@if(bitcoinExchangeRate == null) {
+	<p><em>Loading...</em></p>
+} else {
+	<p>1 BTC = @bitcoinExchangeRate.rate.ToString("0.00")</p>
+	                                    
+	<button class="btn btn-dark" @onclick="SetBitcoinExchangeRate">Refresh</button>
+}
+
+@code {
+
+	private Exchangerate bitcoinExchangeRate;
+
+    private async Task SetBitcoinExchangeRate() => bitcoinExchangeRate = await cryptoClient.GetCurrencyRate(CurrencyCode.Bitcoin, CurrencyCode.Usd);
+
+	protected override async Task OnInitializedAsync() => await SetBitcoinExchangeRate();
+
+}

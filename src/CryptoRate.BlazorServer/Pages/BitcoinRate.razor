@@ -8,13 +8,13 @@
 @if(bitcoinExchangeRate == null) {
 	<p><em>Loading...</em></p>
 } else {
-	<p>1 BTC = @bitcoinExchangeRate.rate.ToString("0.00")</p>
-	                                    
+	<p>1 BTC = $@bitcoinExchangeRate.rate.ToString("0.00")</p>
+
 	<button class="btn btn-dark" @onclick="SetBitcoinExchangeRate">Refresh</button>
 }
 
 @code {
-
+	
 	private Exchangerate bitcoinExchangeRate;
 
     private async Task SetBitcoinExchangeRate() => bitcoinExchangeRate = await cryptoClient.GetCurrencyRate(CurrencyCode.Bitcoin, CurrencyCode.Usd);

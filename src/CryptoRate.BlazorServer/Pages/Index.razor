@@ -1,8 +1,28 @@
 ﻿@page "/"
+@using CoinAPI.REST.V1
+@inject ICryptoClient cryptoClient
 
+<input type="text" placeholder="Base currency" @oninput="@(x => baseCurrency = x.Value.ToString())" />
+<input type="text" placeholder="Quote currency" @oninput="@(x => quoteCurrency = x.Value.ToString())" />
+
+@if(exchangeRate == null || String.IsNullOrWhiteSpace(baseCurrency) || String.IsNullOrWhiteSpace(quoteCurrency)) {
+	<p>Please, enter valid base and quote qurrency</p>
+} else {
+	<p>1 @baseCurrency = @exchangeRate.rate.ToString("0.00") @quoteCurrency</p>
+}
+
+<button class="btn btn-dark" @onclick="SetExchangeRate">Update</button>
 
 @code{
+
+	private string baseCurrency, quoteCurrency;
 	
+	private Exchangerate exchangeRate;
 
-
+	private async Task SetExchangeRate() {
+		if(!String.IsNullOrWhiteSpace(baseCurrency) && !String.IsNullOrWhiteSpace(quoteCurrency)) {
+			exchangeRate = await cryptoClient.GetCurrencyRate(baseCurrency, quoteCurrency);
+		}
+	}
+	
 }

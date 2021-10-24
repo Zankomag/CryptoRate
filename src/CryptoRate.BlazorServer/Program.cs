@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace CryptoRate.Blazor
+namespace CryptoRate.BlazorServer
 {
     public class Program
     {

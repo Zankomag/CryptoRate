@@ -2,7 +2,7 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace CryptoRate.Blazor.Data
+namespace CryptoRate.BlazorServer.Data
 {
     public class WeatherForecastService
     {

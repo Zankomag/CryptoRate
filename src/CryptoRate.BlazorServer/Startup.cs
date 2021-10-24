@@ -1,4 +1,3 @@
-using CryptoRate.Blazor.Data;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Hosting;
@@ -10,8 +9,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using CryptoRate.BlazorServer.Data;
 
-namespace CryptoRate.Blazor
+namespace CryptoRate.BlazorServer
 {
     public class Startup
     {

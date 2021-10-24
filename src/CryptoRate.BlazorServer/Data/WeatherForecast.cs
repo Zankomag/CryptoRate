@@ -1,6 +1,6 @@
 using System;
 
-namespace CryptoRate.Blazor.Data
+namespace CryptoRate.BlazorServer.Data
 {
     public class WeatherForecast
     {

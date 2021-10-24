@@ -23,7 +23,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UnitTests", "UnitTests", "{
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CryptoRate.Common", "src\CryptoRate.Common\CryptoRate.Common.csproj", "{8D2655E7-4CB8-4C97-99CB-39FEF98C995D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CryptoRate.Blazor", "src\CryptoRate.Blazor\CryptoRate.Blazor.csproj", "{03CCD8EC-E4CD-4E24-B5B0-FAD208F8FD03}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CryptoRate.BlazorServer", "src\CryptoRate.BlazorServer\CryptoRate.BlazorServer.csproj", "{03CCD8EC-E4CD-4E24-B5B0-FAD208F8FD03}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

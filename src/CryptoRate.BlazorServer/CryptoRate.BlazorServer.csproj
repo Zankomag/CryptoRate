@@ -6,12 +6,17 @@
 
   <ItemGroup>
     <ProjectReference Include="..\CryptoRate.Common\CryptoRate.Common.csproj" />
+    <ProjectReference Include="..\CryptoRate.Core\CryptoRate.Core.csproj" />
   </ItemGroup>
 
 	<ItemGroup>
 		<None Include="wwwroot\**">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</None>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <PackageReference Include="Syncfusion.Blazor" Version="19.3.0.46" />
 	</ItemGroup>
 	
 </Project>

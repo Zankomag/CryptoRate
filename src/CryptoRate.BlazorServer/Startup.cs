@@ -1,3 +1,4 @@
+using CryptoRate.BlazorServer.Data;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Hosting;
@@ -9,7 +10,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using CryptoRate.BlazorServer.Data;
+using CryptoRate.Common.Utils;
+using Microsoft.Extensions.Logging;
 
 namespace CryptoRate.BlazorServer
 {
@@ -24,17 +26,17 @@ namespace CryptoRate.BlazorServer
 
         // This method gets called by the runtime. Use this method to add services to the container.
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
-        public void ConfigureServices(IServiceCollection services)
-        {
+        public void ConfigureServices(IServiceCollection services) {
+			services.AddLogging(logging => logging.AddConsole());
             services.AddRazorPages();
             services.AddServerSideBlazor();
             services.AddSingleton<WeatherForecastService>();
-        }
+		}
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            if (env.IsDevelopment())
+            if (env.IsDevelopment() || EnvironmentWrapper.IsDevelopment)
             {
                 app.UseDeveloperExceptionPage();
             }
@@ -54,7 +56,7 @@ namespace CryptoRate.BlazorServer
             {
                 endpoints.MapBlazorHub();
                 endpoints.MapFallbackToPage("/_Host");
-            });
+			});
         }
     }
 }

@@ -8,6 +8,8 @@ namespace CryptoRate.Common.Utils {
 
 		public const string Development = nameof(Development);
 
+		public static bool IsDevelopment => GetEnvironmentName() == Development;
+
 		public static string GetEnvironmentName() => Environment.GetEnvironmentVariable(EnvironmentName) ?? Development;
 
 	}

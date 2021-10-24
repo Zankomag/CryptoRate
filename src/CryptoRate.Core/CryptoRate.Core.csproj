@@ -10,19 +10,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Content Include="appsettings.Development.json">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </Content>
-      <Content Include="appsettings.json">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </Content>
-      <Content Include="appsettings.Production.json">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-        <DependentUpon>appsettings.json</DependentUpon>
-      </Content>
-    </ItemGroup>
-
-    <ItemGroup>
       <ProjectReference Include="..\CryptoRate.Common\CryptoRate.Common.csproj" />
     </ItemGroup>
 

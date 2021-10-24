@@ -1,24 +1,29 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CryptoRate.Core", "src\CryptoRate.Core\CryptoRate.Core.csproj", "{E53173DD-012D-41C8-BA6C-640D587319B6}"
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31727.386
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CryptoRate.Core", "src\CryptoRate.Core\CryptoRate.Core.csproj", "{E53173DD-012D-41C8-BA6C-640D587319B6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CryptoRate.Bot", "src\CryptoRate.Bot\CryptoRate.Bot.csproj", "{E8C2D49A-1BCC-4667-A7F4-D6AF48DEFB80}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CryptoRate.Bot", "src\CryptoRate.Bot\CryptoRate.Bot.csproj", "{E8C2D49A-1BCC-4667-A7F4-D6AF48DEFB80}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CryptoRate.Console", "src\CryptoRate.Console\CryptoRate.Console.csproj", "{30D1C0E0-C94F-43AF-A745-F270D123486E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CryptoRate.Console", "src\CryptoRate.Console\CryptoRate.Console.csproj", "{30D1C0E0-C94F-43AF-A745-F270D123486E}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{6C7DCF0C-4914-4F2F-8AB9-E048574428F4}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{3745DD3B-9CBC-4291-B824-FFBAF3354D65}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CryptoRate.Common.UnitTests", "test\UnitTests\CryptoRate.Common.UnitTests\CryptoRate.Common.UnitTests.csproj", "{8E0D82FF-291D-4042-91DA-D215B0E5C471}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CryptoRate.Common.UnitTests", "test\UnitTests\CryptoRate.Common.UnitTests\CryptoRate.Common.UnitTests.csproj", "{8E0D82FF-291D-4042-91DA-D215B0E5C471}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "IntegrationTests", "IntegrationTests", "{AF46F018-A872-4F68-959B-D69391431A29}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CryptoRate.Core.IntegrationTests", "test\IntegrationTests\CryptoRate.Core.IntegrationTests\CryptoRate.Core.IntegrationTests.csproj", "{31F4DB89-2105-4936-8F0B-7A9048B41AC8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CryptoRate.Core.IntegrationTests", "test\IntegrationTests\CryptoRate.Core.IntegrationTests\CryptoRate.Core.IntegrationTests.csproj", "{31F4DB89-2105-4936-8F0B-7A9048B41AC8}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UnitTests", "UnitTests", "{7BCD99EE-DC47-44D8-8D91-FAD70880BB64}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CryptoRate.Common", "src\CryptoRate.Common\CryptoRate.Common.csproj", "{8D2655E7-4CB8-4C97-99CB-39FEF98C995D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CryptoRate.Common", "src\CryptoRate.Common\CryptoRate.Common.csproj", "{8D2655E7-4CB8-4C97-99CB-39FEF98C995D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CryptoRate.Blazor", "src\CryptoRate.Blazor\CryptoRate.Blazor.csproj", "{03CCD8EC-E4CD-4E24-B5B0-FAD208F8FD03}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -50,16 +55,26 @@ Global
 		{8D2655E7-4CB8-4C97-99CB-39FEF98C995D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8D2655E7-4CB8-4C97-99CB-39FEF98C995D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8D2655E7-4CB8-4C97-99CB-39FEF98C995D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{03CCD8EC-E4CD-4E24-B5B0-FAD208F8FD03}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{03CCD8EC-E4CD-4E24-B5B0-FAD208F8FD03}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{03CCD8EC-E4CD-4E24-B5B0-FAD208F8FD03}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{03CCD8EC-E4CD-4E24-B5B0-FAD208F8FD03}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{E8C2D49A-1BCC-4667-A7F4-D6AF48DEFB80} = {6C7DCF0C-4914-4F2F-8AB9-E048574428F4}
 		{E53173DD-012D-41C8-BA6C-640D587319B6} = {6C7DCF0C-4914-4F2F-8AB9-E048574428F4}
+		{E8C2D49A-1BCC-4667-A7F4-D6AF48DEFB80} = {6C7DCF0C-4914-4F2F-8AB9-E048574428F4}
 		{30D1C0E0-C94F-43AF-A745-F270D123486E} = {6C7DCF0C-4914-4F2F-8AB9-E048574428F4}
-		{01899B18-6A80-4B4A-A71A-39A58DF4F012} = {3745DD3B-9CBC-4291-B824-FFBAF3354D65}
+		{8E0D82FF-291D-4042-91DA-D215B0E5C471} = {7BCD99EE-DC47-44D8-8D91-FAD70880BB64}
 		{AF46F018-A872-4F68-959B-D69391431A29} = {3745DD3B-9CBC-4291-B824-FFBAF3354D65}
 		{31F4DB89-2105-4936-8F0B-7A9048B41AC8} = {AF46F018-A872-4F68-959B-D69391431A29}
 		{7BCD99EE-DC47-44D8-8D91-FAD70880BB64} = {3745DD3B-9CBC-4291-B824-FFBAF3354D65}
-		{8E0D82FF-291D-4042-91DA-D215B0E5C471} = {7BCD99EE-DC47-44D8-8D91-FAD70880BB64}
 		{8D2655E7-4CB8-4C97-99CB-39FEF98C995D} = {6C7DCF0C-4914-4F2F-8AB9-E048574428F4}
+		{03CCD8EC-E4CD-4E24-B5B0-FAD208F8FD03} = {6C7DCF0C-4914-4F2F-8AB9-E048574428F4}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {7671EE2C-8634-4022-990E-F8382C652B9A}
 	EndGlobalSection
 EndGlobal

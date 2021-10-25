@@ -46,7 +46,7 @@ namespace CryptoRate.Core.IntegrationTests {
 			const string quoteCurrency = CurrencyCode.Usd;
 
 			//Act
-			var result = await cryptoClient.GetCurrencyRate(baseCurrency, quoteCurrency);
+			var result = await cryptoClient.GetCurrencyRateAsync(baseCurrency, quoteCurrency);
 
 			//Assert
 			Assert.NotNull(result);

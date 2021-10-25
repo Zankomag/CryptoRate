@@ -21,7 +21,7 @@
 
 	private async Task SetExchangeRate() {
 		if(!String.IsNullOrWhiteSpace(baseCurrency) && !String.IsNullOrWhiteSpace(quoteCurrency)) {
-			exchangeRate = await cryptoClient.GetCurrencyRate(baseCurrency, quoteCurrency);
+			exchangeRate = await cryptoClient.GetCurrencyRateAsync(baseCurrency, quoteCurrency);
 		}
 	}
 	

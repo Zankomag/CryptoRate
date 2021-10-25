@@ -17,7 +17,7 @@
 	
 	private Exchangerate bitcoinExchangeRate;
 
-    private async Task SetBitcoinExchangeRate() => bitcoinExchangeRate = await cryptoClient.GetCurrencyRate(CurrencyCode.Bitcoin, CurrencyCode.Usd);
+    private async Task SetBitcoinExchangeRate() => bitcoinExchangeRate = await cryptoClient.GetCurrencyRateAsync(CurrencyCode.Bitcoin, CurrencyCode.Usd);
 
 	protected override async Task OnInitializedAsync() => await SetBitcoinExchangeRate();
 

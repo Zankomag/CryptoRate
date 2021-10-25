@@ -62,11 +62,11 @@ namespace CryptoRate.Bot.Services {
 			switch(command.ToLower()) {
 				case "/btc":
 				case "/btctousd":
-					await SendCurrencyRate(message.Chat.Id, CurrencyCode.Bitcoin, CurrencyCode.Usd);
+					await SendCurrencyRateAsync(message.Chat.Id, CurrencyCode.Bitcoin, CurrencyCode.Usd);
 					break;
 				case "/eth":
 				case "/ethtousd":
-					await SendCurrencyRate(message.Chat.Id, CurrencyCode.Ethereum, CurrencyCode.Usd);
+					await SendCurrencyRateAsync(message.Chat.Id, CurrencyCode.Ethereum, CurrencyCode.Usd);
 					break;
 				case "/health":
 					if(options.IsUserAdmin(message.From.Id)) {
@@ -76,9 +76,9 @@ namespace CryptoRate.Bot.Services {
 			}
 		}
 
-		public async Task<Message> SendCurrencyRate(long chatId, string currencyBase, string currencyQuote)
-			=> await SendCurrencyRate(chatId,
-				await cryptoClient.GetCurrencyRate(currencyBase, currencyQuote),
+		public async Task<Message> SendCurrencyRateAsync(long chatId, string currencyBase, string currencyQuote)
+			=> await SendCurrencyRateAsync(chatId,
+				await cryptoClient.GetCurrencyRateAsync(currencyBase, currencyQuote),
 				currencyBase.GetCurrencyCharByCode(),
 				currencyQuote.GetCurrencyCharByCode());
 
@@ -95,7 +95,7 @@ namespace CryptoRate.Bot.Services {
 					quoteCurrency = currencyCodes.Length > 1 ? currencyCodes[1].ToUpper() : CurrencyCode.Usd;
 				}
 				
-				var currencyRate = await cryptoClient.GetCurrencyRate(baseCurrency, quoteCurrency);
+				var currencyRate = await cryptoClient.GetCurrencyRateAsync(baseCurrency, quoteCurrency);
 				await client.AnswerInlineQueryAsync(inlineQuery.Id,
 					new[] {
 						new InlineQueryResultCachedSticker(Guid.NewGuid().ToString(), random.Next(0, 2) > 0 ? options.GreenStickerFileId : options.RedStickerFileId) {
@@ -129,7 +129,7 @@ namespace CryptoRate.Bot.Services {
 			Task.CompletedTask;
 
 		//TODO Add Async suffix here and everywhere we need
-		public async Task<Message> SendCurrencyRate(long chatId, Exchangerate currencyRate, string baseCurrencyChar, string quoteCurrencyChar) {
+		public async Task<Message> SendCurrencyRateAsync(long chatId, Exchangerate currencyRate, string baseCurrencyChar, string quoteCurrencyChar) {
 			string message = GetCurrencyRateMessage(currencyRate, baseCurrencyChar, quoteCurrencyChar);
 
 			var result = await client.SendTextMessageAsync(chatId, message, ParseMode.Markdown);

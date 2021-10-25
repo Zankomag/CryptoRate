@@ -26,7 +26,7 @@ namespace CryptoRate.Console {
 			var logger = host.Services.GetRequiredService<ILogger<Program>>();
 			logger.LogInformation("Requesting BTC to USD exchange rate");
 			var cryptoClient = host.Services.GetRequiredService<ICryptoClient>();
-			var currencyRate = await cryptoClient.GetCurrencyRate(CurrencyCode.Bitcoin, CurrencyCode.Usd);
+			var currencyRate = await cryptoClient.GetCurrencyRateAsync(CurrencyCode.Bitcoin, CurrencyCode.Usd);
 			logger.LogInformation($"1 BTC = {Decimal.Round(currencyRate.rate, MidpointRounding.ToZero)} USD");
 		}
 

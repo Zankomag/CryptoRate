@@ -117,7 +117,8 @@ namespace CryptoRate.Bot.Services {
 				case UpdateType.InlineQuery:
 					await HandleInlineQueryAsync(update.InlineQuery);
 					break;
-				default: throw new InvalidOperationException($"Update type {update.Type} is not supported");
+				default: logger.LogWarning("Update type {update.Type} is not supported", update.Type);
+					break;
 			}
 
 		}

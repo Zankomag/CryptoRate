@@ -26,7 +26,7 @@ namespace CryptoRate.Bot.Services {
 		private readonly TelegramBotClient client;
 		private readonly ICryptoClient cryptoClient;
 		private readonly ILogger<TelegramBotService> logger;
-		private readonly DateTime startTime;
+		private readonly DateTime startDateTime;
 
 		private readonly TelegramBotOptions options;
 		private readonly string botUsername;
@@ -39,15 +39,15 @@ namespace CryptoRate.Bot.Services {
 			this.logger = logger;
 			options = telegramBotOptions.Value;
 			client = new TelegramBotClient(options.Token);
+			//TODO workaround this so it won't block
 			botUsername = client.GetMeAsync().Result.Username;
-			startTime = DateTime.UtcNow;
+			startDateTime = DateTime.UtcNow;
 		}
 
 		public async Task HandleMessageAsync(Message message) {
 			//bot doesn't read old messages to avoid /*spam*/ 
-			// DISABLED DUE TO LAMBDA ISSUES
-			//TODO fix end enable
-			//if(message.Date < startTime) return;
+			//2 minutes threshold due to slow start of aws lambda
+			if(message.Date < startDateTime.AddMinutes(-2)) return;
 
 			//If command contains bot username we need to exclude it from command (/btc@MyBtcBot should be /btc)
 			int atIndex = message.Text.IndexOf('@');
@@ -70,7 +70,7 @@ namespace CryptoRate.Bot.Services {
 					break;
 				case "/health":
 					if(options.IsUserAdmin(message.From.Id)) {
-						await client.SendTextMessageAsync(message.From.Id, $"Running\nEnvironment: {EnvironmentWrapper.GetEnvironmentName()}\ndotnet {Environment.Version}\nstart time: {startTime}");
+						await client.SendTextMessageAsync(message.From.Id, $"Running\nEnvironment: {EnvironmentWrapper.GetEnvironmentName()}\ndotnet {Environment.Version}\nstart time: {startDateTime}");
 					}
 					break;
 			}

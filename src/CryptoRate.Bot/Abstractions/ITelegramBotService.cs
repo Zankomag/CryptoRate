@@ -11,11 +11,9 @@ namespace CryptoRate.Bot.Abstractions {
 		Task<Message> SendCurrencyRateAsync(long chatId, Exchangerate currencyRate, string baseCurrencyChar, string quoteCurrencyChar);
 		Task<Message> SendCurrencyRateAsync(long chatId, string currencyBase, string currencyQuote);
 
-		Task HandleMessageAsync(Message message);
-
-		Task HandleInlineQueryAsync(InlineQuery inlineQuery);
-
 		Task HandleUpdateAsync(Update update);
+
+		bool IsTokenCorrect(string token);
 
 	}
 

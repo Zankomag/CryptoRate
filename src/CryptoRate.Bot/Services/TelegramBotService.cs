@@ -19,17 +19,19 @@ using Telegram.Bot.Types.InlineQueryResults;
 // ReSharper disable SwitchStatementHandlesSomeKnownEnumValuesWithDefault
 
 namespace CryptoRate.Bot.Services {
-
-//TODO add inline mode for getting rate in any chat
+	
 	public class TelegramBotService : ITelegramBotService {
 		
 		private readonly TelegramBotClient client;
 		private readonly ICryptoClient cryptoClient;
 		private readonly ILogger<TelegramBotService> logger;
 		private readonly DateTime startDateTime;
-
 		private readonly TelegramBotOptions options;
-		private readonly string botUsername;
+
+		/// <summary>
+		/// Bot username with @ in front
+		/// </summary>
+		private readonly Lazy<Task<string>> botUsername;
 
 		/// <inheritdoc />
 		public UpdateType[] AllowedUpdates { get; } = { UpdateType.Message, UpdateType.InlineQuery };
@@ -39,11 +41,17 @@ namespace CryptoRate.Bot.Services {
 			this.logger = logger;
 			options = telegramBotOptions.Value;
 			client = new TelegramBotClient(options.Token);
-			//TODO workaround this so it won't block
-			botUsername = client.GetMeAsync().Result.Username;
+			botUsername = new Lazy<Task<string>>(async () => await InitializeBotUsername());
 			startDateTime = DateTime.UtcNow;
 		}
 
+		private async Task<string> InitializeBotUsername() {
+			var botInfo = await client.GetMeAsync();
+			return String.Concat('@', botInfo.Username);
+		}
+		
+		public bool IsTokenCorrect(string token) => token != null && token == options.Token;
+		
 		public async Task HandleMessageAsync(Message message) {
 			//bot doesn't read old messages to avoid /*spam*/ 
 			//2 minutes threshold due to slow start of aws lambda
@@ -51,9 +59,10 @@ namespace CryptoRate.Bot.Services {
 
 			//If command contains bot username we need to exclude it from command (/btc@MyBtcBot should be /btc)
 			int atIndex = message.Text.IndexOf('@');
-			
+
+			string username = await botUsername.Value;
 			//Bot should not respond to commands in group chats without direct mention
-			if(message.From.Id != message.Chat.Id && atIndex != -1 && message.Text[(atIndex + 1)..] != botUsername) 
+			if(message.From.Id != message.Chat.Id && atIndex != -1 && message.Text[(atIndex + 1)..] != username) 
 				return;
 			
 			string command = atIndex == -1 ? message.Text : message.Text[..atIndex];
@@ -69,6 +78,7 @@ namespace CryptoRate.Bot.Services {
 					await SendCurrencyRateAsync(message.Chat.Id, CurrencyCode.Ethereum, CurrencyCode.Usd);
 					break;
 				case "/health":
+				case "/status":
 					if(options.IsUserAdmin(message.From.Id)) {
 						await client.SendTextMessageAsync(message.From.Id, $"Running\nEnvironment: {EnvironmentWrapper.GetEnvironmentName()}\ndotnet {Environment.Version}\nstart time: {startDateTime}");
 					}
@@ -124,12 +134,11 @@ namespace CryptoRate.Bot.Services {
 		}
 
 		/// <inheritdoc />
-		public Task HandleError(ITelegramBotClient botClient, Exception exception, CancellationToken cancellationToken) =>
-
-			//TODO Log exception
-			Task.CompletedTask;
-
-		//TODO Add Async suffix here and everywhere we need
+		public Task HandleError(ITelegramBotClient botClient, Exception exception, CancellationToken cancellationToken) {
+			logger.LogError(exception, "Received an exception from Telegram Bot API");
+			return Task.CompletedTask;
+		}
+		
 		public async Task<Message> SendCurrencyRateAsync(long chatId, Exchangerate currencyRate, string baseCurrencyChar, string quoteCurrencyChar) {
 			string message = GetCurrencyRateMessage(currencyRate, baseCurrencyChar, quoteCurrencyChar);
 

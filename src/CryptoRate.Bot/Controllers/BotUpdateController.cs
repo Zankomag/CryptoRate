@@ -17,8 +17,9 @@ namespace CryptoRate.Bot.Controllers {
 
 		[HttpPost("{token}")]
 		public async Task<IActionResult> PostUpdate([FromBody] Update update, string token) {
-			//TODO check token
-			await telegramBotService.HandleUpdateAsync(update);
+			if(telegramBotService.IsTokenCorrect(token)) {
+				await telegramBotService.HandleUpdateAsync(update);
+			}
 			return Ok();
 		}
 

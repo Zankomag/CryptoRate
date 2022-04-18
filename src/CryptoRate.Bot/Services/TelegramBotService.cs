@@ -108,11 +108,13 @@ namespace CryptoRate.Bot.Services {
 				var currencyRate = await cryptoClient.GetCurrencyRateAsync(baseCurrency, quoteCurrency);
 				await client.AnswerInlineQueryAsync(inlineQuery.Id,
 					new[] {
-						new InlineQueryResultCachedSticker(Guid.NewGuid().ToString(), random.Next(0, 2) > 0 ? options.GreenStickerFileId : options.RedStickerFileId) {
-							InputMessageContent = new InputTextMessageContent(GetCurrencyRateMessage(currencyRate, baseCurrency.GetCurrencyCharByCode(), quoteCurrency.GetCurrencyCharByCode()))
-								{ ParseMode = ParseMode.Markdown }
+						new InlineQueryResultCachedSticker(Guid.NewGuid().ToString(),
+							random.Next(0, 2) > 0 ? options.GreenStickerFileId : options.RedStickerFileId) {
+							InputMessageContent = new InputTextMessageContent(GetCurrencyRateMessage(currencyRate,
+									baseCurrency.GetCurrencyCharByCode(), quoteCurrency.GetCurrencyCharByCode()))
+								{ParseMode = ParseMode.Markdown}
 						}
-					});
+					}, 10, true);
 			}
 		}
 

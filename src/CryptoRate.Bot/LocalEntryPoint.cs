@@ -1,7 +1,6 @@
 ﻿using System.Threading.Tasks;
 using CryptoRate.Bot.Services;
 using CryptoRate.Common.Extensions;
-using CryptoRate.Common.Utils;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -11,13 +10,9 @@ namespace CryptoRate.Bot {
 	public class LocalEntryPoint {
 
 		private static async Task Main() {
-			IHost host;
-			if(EnvironmentWrapper.IsDevelopment) {
-				host = GetHost();
-			} else {
-				host = GetWebHost();
-			}
-
+			var host = GetHost();
+			//var host = GetWebHost();
+			
 			await host.RunAsync();
 		}
 
@@ -32,7 +27,8 @@ namespace CryptoRate.Bot {
 			=> new HostBuilder()
 				.AddConfiguration()
 				.ConfigureWebHost(x =>
-					x.UseKestrel((builderContext, options) => options.Configure(builderContext.Configuration.GetSection("Kestrel")))
+					x.UseKestrel()
+						.UseUrls("https://*:5930")
 						.UseStartup<Startup>())
 				.Build();
 
